@@ -1,0 +1,18 @@
+// define protocol buffer version
+syntax = "proto3";
+
+option go_package = "model";
+
+package model.balance;
+
+import public "model_common.proto";
+
+message BalanceRequest {
+	string address = 1;
+}
+
+message SequenceResponse {
+	model.common.ResponseStatus result = 1;
+	model.common.Error error = 2;
+	repeated model.common.Coin coins = 3;
+}

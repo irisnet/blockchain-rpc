@@ -1,0 +1,43 @@
+// define protocol buffer version
+syntax = "proto3";
+
+option go_package = "model";
+
+package model.common;
+
+// coin structure
+message Coin {
+	string denom = 1;
+	double amount = 2;
+}
+
+// address structure
+message Address {
+	string chain = 1;
+	string app = 2;
+	string addr = 3;
+}
+
+// fee structure
+message Fee {
+	double amount = 1;
+	string denom = 2;
+}
+
+// memo structure
+message Memo {
+	uint64 id = 1;
+	bytes text = 2;
+}
+
+// error message structure
+message Error {
+	uint64 code = 1;
+	string msg = 2;
+}
+
+// response status
+enum ResponseStatus {
+	SUCCESS = 0;
+	FAIL = 1;
+}

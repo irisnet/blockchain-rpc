@@ -1,0 +1,19 @@
+// define protocol buffer version
+syntax = "proto3";
+
+option go_package = "model";
+
+package model.sequence;
+
+import public "model_common.proto";
+
+message SequenceRequest {
+	string address = 1;
+}
+
+message SequenceResponse {
+	model.common.ResponseStatus result = 1;
+	model.common.Error error = 2;
+	uint64 sequence = 3;
+	uint64 height = 4;
+}
