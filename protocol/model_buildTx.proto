@@ -1,0 +1,23 @@
+// define protocol buffer version
+syntax = "proto3";
+
+option go_package = "model";
+
+package model.buildTx;
+
+import public "model_common.proto";
+
+message BuildTxRequest {
+	uint64 nonce = 1;
+	model.common.Address from = 2;
+	model.common.Address to = 3;
+	repeated model.common.Coin amount = 4;
+	model.common.Fee fee = 5;
+	model.common.Memo memo = 6;
+}
+
+message BuildTxResponse {
+	model.common.ResponseStatus result = 1;
+	model.common.Error error = 2;
+	bytes data = 3;
+}

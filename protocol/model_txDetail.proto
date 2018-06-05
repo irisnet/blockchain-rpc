@@ -1,0 +1,32 @@
+// define protocol buffer version
+syntax = "proto3";
+
+option go_package = "model";
+
+package model.txDetail;
+
+import public "model_common.proto";
+
+message TxDetailRequest {
+	string txHash = 1;
+}
+
+message TxDetailResponse {
+	model.common.ResponseStatus result = 1;
+	model.common.Error error = 2;
+	string txHash = 3;
+	string time = 4;
+	uint64 height = 5;
+	model.common.Address from = 6;
+	model.common.Address to = 7;
+	repeated model.common.Coin amount = 8;
+	string type = 9;
+	string status = 10;
+	message Fee {
+		string denom = 1;
+		double cost = 2;
+    }
+    Fee fee = 11;
+	model.common.Memo memo = 12;
+	bytes ext = 13;
+}
