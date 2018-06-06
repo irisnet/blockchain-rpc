@@ -12,7 +12,5 @@ message BalanceRequest {
 }
 
 message SequenceResponse {
-	model.common.ResponseStatus result = 1;
-	model.common.Error error = 2;
-	repeated model.common.Coin coins = 3;
+	repeated model.common.Coin coins = 1;
 }

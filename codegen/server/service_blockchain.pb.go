@@ -31,10 +31,6 @@ const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // Ignoring public import of Memo from model_common.proto
 
-// Ignoring public import of Error from model_common.proto
-
-// Ignoring public import of ResponseStatus from model_common.proto
-
 // Ignoring public import of BuildTxRequest from model_buildTx.proto
 
 // Ignoring public import of BuildTxResponse from model_buildTx.proto
