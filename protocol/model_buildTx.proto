@@ -17,7 +17,5 @@ message BuildTxRequest {
 }
 
 message BuildTxResponse {
-	model.common.ResponseStatus result = 1;
-	model.common.Error error = 2;
-	bytes data = 3;
+	bytes data = 1;
 }

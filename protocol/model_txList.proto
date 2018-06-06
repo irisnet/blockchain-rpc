@@ -20,15 +20,13 @@ message TxListRequest {
 }
 
 message TxListResponse {
-	model.common.ResponseStatus result = 1;
-	model.common.Error error = 2;
-	string txHash = 3;
-	string time = 4;
-	uint64 height = 5;
-	model.common.Address from = 6;
-	model.common.Address to = 7;
-	repeated model.common.Coin amount = 8;
-	string type = 9;
-	string status = 10;
-	string ext = 11;
+	string txHash = 1;
+	string time = 2;
+	uint64 height = 3;
+	model.common.Address from = 4;
+	model.common.Address to = 5;
+	repeated model.common.Coin amount = 6;
+	string type = 7;
+	string status = 8;
+	string ext = 9;
 }

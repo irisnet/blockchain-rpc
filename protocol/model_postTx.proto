@@ -12,7 +12,5 @@ message PostTxRequest {
 }
 
 message PostTxResponse {
-	model.common.ResponseStatus result = 1;
-	model.common.Error error = 2;
-	string txHash = 3;
+	string txHash = 2;
 }

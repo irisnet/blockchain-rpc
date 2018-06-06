@@ -12,8 +12,6 @@ message SequenceRequest {
 }
 
 message SequenceResponse {
-	model.common.ResponseStatus result = 1;
-	model.common.Error error = 2;
-	uint64 sequence = 3;
-	uint64 height = 4;
+	uint64 sequence = 1;
+	uint64 height = 2;
 }

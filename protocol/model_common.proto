@@ -29,15 +29,3 @@ message Memo {
 	uint64 id = 1;
 	bytes text = 2;
 }
-
-// error message structure
-message Error {
-	uint64 code = 1;
-	string msg = 2;
-}
-
-// response status
-enum ResponseStatus {
-	SUCCESS = 0;
-	FAIL = 1;
-}
