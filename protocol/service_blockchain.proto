@@ -21,7 +21,7 @@ service BlockChainService {
 	// get sequence
 	rpc GetSequence(model.sequence.SequenceRequest) returns (model.sequence.SequenceResponse) {}
 	// get balance
-	rpc GetBalance(model.balance.BalanceRequest) returns (model.balance.SequenceResponse) {}
+	rpc GetBalance(model.balance.BalanceRequest) returns (model.balance.BalanceResponse) {}
 	// get tx list
 	rpc GetTxList(model.txList.TxListRequest) returns (model.txList.TxListResponse) {}
 	// get tx detail

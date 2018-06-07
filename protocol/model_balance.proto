@@ -11,6 +11,6 @@ message BalanceRequest {
 	string address = 1;
 }
 
-message SequenceResponse {
+message BalanceResponse {
 	repeated model.common.Coin coins = 1;
 }
