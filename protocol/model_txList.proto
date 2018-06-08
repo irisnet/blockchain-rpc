@@ -20,6 +20,10 @@ message TxListRequest {
 }
 
 message TxListResponse {
+	repeated TxListObject txs = 1;
+}
+
+message TxListObject {
 	string txHash = 1;
 	string time = 2;
 	uint64 height = 3;
