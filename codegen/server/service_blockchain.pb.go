@@ -51,6 +51,8 @@ const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // Ignoring public import of TxListResponse from model_txList.proto
 
+// Ignoring public import of TxListObject from model_txList.proto
+
 // Ignoring public import of TxDetailRequest from model_txDetail.proto
 
 // Ignoring public import of TxDetailResponse from model_txDetail.proto
