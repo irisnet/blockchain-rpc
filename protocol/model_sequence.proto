@@ -5,8 +5,6 @@ option go_package = "model";
 
 package model.sequence;
 
-import public "model_common.proto";
-
 message SequenceRequest {
 	string address = 1;
 }

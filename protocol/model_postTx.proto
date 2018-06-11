@@ -5,8 +5,6 @@ option go_package = "model";
 
 package model.postTx;
 
-import public "model_common.proto";
-
 message PostTxRequest {
 	bytes tx = 1;
 }
