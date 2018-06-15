@@ -1,2 +1,2 @@
 # blockchain-rpc
-Common gRPC interface for all blockchains
+Common Thrift RPC interface for all blockchains
