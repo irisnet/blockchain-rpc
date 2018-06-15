@@ -24,7 +24,7 @@ var _ = bytes.Equal
 // Attributes:
 //  - Tx
 type PostTxRequest struct {
-  Tx int8 `thrift:"tx,1" db:"tx" json:"tx"`
+  Tx []byte `thrift:"tx,1" db:"tx" json:"tx"`
 }
 
 func NewPostTxRequest() *PostTxRequest {
@@ -32,7 +32,7 @@ func NewPostTxRequest() *PostTxRequest {
 }
 
 
-func (p *PostTxRequest) GetTx() int8 {
+func (p *PostTxRequest) GetTx() []byte {
   return p.Tx
 }
 func (p *PostTxRequest) Read(iprot thrift.TProtocol) error {
@@ -49,7 +49,7 @@ func (p *PostTxRequest) Read(iprot thrift.TProtocol) error {
     if fieldTypeId == thrift.STOP { break; }
     switch fieldId {
     case 1:
-      if fieldTypeId == thrift.BYTE {
+      if fieldTypeId == thrift.STRING {
         if err := p.ReadField1(iprot); err != nil {
           return err
         }
@@ -74,11 +74,10 @@ func (p *PostTxRequest) Read(iprot thrift.TProtocol) error {
 }
 
 func (p *PostTxRequest)  ReadField1(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadByte(); err != nil {
+  if v, err := iprot.ReadBinary(); err != nil {
   return thrift.PrependError("error reading field 1: ", err)
 } else {
-  temp := int8(v)
-  p.Tx = temp
+  p.Tx = v
 }
   return nil
 }
@@ -97,9 +96,9 @@ func (p *PostTxRequest) Write(oprot thrift.TProtocol) error {
 }
 
 func (p *PostTxRequest) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("tx", thrift.BYTE, 1); err != nil {
+  if err := oprot.WriteFieldBegin("tx", thrift.STRING, 1); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:tx: ", p), err) }
-  if err := oprot.WriteByte(int8(p.Tx)); err != nil {
+  if err := oprot.WriteBinary(p.Tx); err != nil {
   return thrift.PrependError(fmt.Sprintf("%T.tx (1) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 1:tx: ", p), err) }

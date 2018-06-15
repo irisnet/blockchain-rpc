@@ -352,7 +352,7 @@ func (p *BuildTxRequest) String() string {
 // Attributes:
 //  - Data
 type BuildTxResponse struct {
-  Data int8 `thrift:"data,1" db:"data" json:"data"`
+  Data []byte `thrift:"data,1" db:"data" json:"data"`
 }
 
 func NewBuildTxResponse() *BuildTxResponse {
@@ -360,7 +360,7 @@ func NewBuildTxResponse() *BuildTxResponse {
 }
 
 
-func (p *BuildTxResponse) GetData() int8 {
+func (p *BuildTxResponse) GetData() []byte {
   return p.Data
 }
 func (p *BuildTxResponse) Read(iprot thrift.TProtocol) error {
@@ -377,7 +377,7 @@ func (p *BuildTxResponse) Read(iprot thrift.TProtocol) error {
     if fieldTypeId == thrift.STOP { break; }
     switch fieldId {
     case 1:
-      if fieldTypeId == thrift.BYTE {
+      if fieldTypeId == thrift.STRING {
         if err := p.ReadField1(iprot); err != nil {
           return err
         }
@@ -402,11 +402,10 @@ func (p *BuildTxResponse) Read(iprot thrift.TProtocol) error {
 }
 
 func (p *BuildTxResponse)  ReadField1(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadByte(); err != nil {
+  if v, err := iprot.ReadBinary(); err != nil {
   return thrift.PrependError("error reading field 1: ", err)
 } else {
-  temp := int8(v)
-  p.Data = temp
+  p.Data = v
 }
   return nil
 }
@@ -425,9 +424,9 @@ func (p *BuildTxResponse) Write(oprot thrift.TProtocol) error {
 }
 
 func (p *BuildTxResponse) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("data", thrift.BYTE, 1); err != nil {
+  if err := oprot.WriteFieldBegin("data", thrift.STRING, 1); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:data: ", p), err) }
-  if err := oprot.WriteByte(int8(p.Data)); err != nil {
+  if err := oprot.WriteBinary(p.Data); err != nil {
   return thrift.PrependError(fmt.Sprintf("%T.data (1) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 1:data: ", p), err) }
