@@ -23,5 +23,5 @@ struct BuildTxRequest {
  * @param data, result of buildTx
  */
 struct BuildTxResponse {
-	1: i8 data
+	1: binary data
 }

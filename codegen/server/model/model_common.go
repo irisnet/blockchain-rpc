@@ -457,7 +457,7 @@ func (p *Fee) String() string {
 //  - Text
 type Memo struct {
   ID int64 `thrift:"id,1" db:"id" json:"id"`
-  Text int8 `thrift:"text,2" db:"text" json:"text"`
+  Text []byte `thrift:"text,2" db:"text" json:"text"`
 }
 
 func NewMemo() *Memo {
@@ -469,7 +469,7 @@ func (p *Memo) GetID() int64 {
   return p.ID
 }
 
-func (p *Memo) GetText() int8 {
+func (p *Memo) GetText() []byte {
   return p.Text
 }
 func (p *Memo) Read(iprot thrift.TProtocol) error {
@@ -496,7 +496,7 @@ func (p *Memo) Read(iprot thrift.TProtocol) error {
         }
       }
     case 2:
-      if fieldTypeId == thrift.BYTE {
+      if fieldTypeId == thrift.STRING {
         if err := p.ReadField2(iprot); err != nil {
           return err
         }
@@ -530,11 +530,10 @@ func (p *Memo)  ReadField1(iprot thrift.TProtocol) error {
 }
 
 func (p *Memo)  ReadField2(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadByte(); err != nil {
+  if v, err := iprot.ReadBinary(); err != nil {
   return thrift.PrependError("error reading field 2: ", err)
 } else {
-  temp := int8(v)
-  p.Text = temp
+  p.Text = v
 }
   return nil
 }
@@ -564,9 +563,9 @@ func (p *Memo) writeField1(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *Memo) writeField2(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("text", thrift.BYTE, 2); err != nil {
+  if err := oprot.WriteFieldBegin("text", thrift.STRING, 2); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:text: ", p), err) }
-  if err := oprot.WriteByte(int8(p.Text)); err != nil {
+  if err := oprot.WriteBinary(p.Text); err != nil {
   return thrift.PrependError(fmt.Sprintf("%T.text (2) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 2:text: ", p), err) }

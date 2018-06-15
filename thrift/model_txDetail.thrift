@@ -33,7 +33,7 @@ struct TxDetailResponse {
 	8: string status,
     9: FeeUsed fee,
 	10: model_common.Memo memo,
-	11: i8 ext
+	11: binary ext
 }
 
 struct FeeUsed {

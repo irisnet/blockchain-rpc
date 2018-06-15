@@ -35,7 +35,7 @@ struct Fee {
  */
 struct Memo {
 	1: i64 id,
-	2: i8 text
+	2: binary text
 }
 
 /** common exception

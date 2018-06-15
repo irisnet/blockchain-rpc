@@ -154,7 +154,7 @@ type TxDetailResponse struct {
   Status string `thrift:"status,8" db:"status" json:"status"`
   Fee *FeeUsed `thrift:"fee,9" db:"fee" json:"fee"`
   Memo *Memo `thrift:"memo,10" db:"memo" json:"memo"`
-  Ext int8 `thrift:"ext,11" db:"ext" json:"ext"`
+  Ext []byte `thrift:"ext,11" db:"ext" json:"ext"`
 }
 
 func NewTxDetailResponse() *TxDetailResponse {
@@ -214,7 +214,7 @@ func (p *TxDetailResponse) GetMemo() *Memo {
 return p.Memo
 }
 
-func (p *TxDetailResponse) GetExt() int8 {
+func (p *TxDetailResponse) GetExt() []byte {
   return p.Ext
 }
 func (p *TxDetailResponse) IsSetSender() bool {
@@ -347,7 +347,7 @@ func (p *TxDetailResponse) Read(iprot thrift.TProtocol) error {
         }
       }
     case 11:
-      if fieldTypeId == thrift.BYTE {
+      if fieldTypeId == thrift.STRING {
         if err := p.ReadField11(iprot); err != nil {
           return err
         }
@@ -469,11 +469,10 @@ func (p *TxDetailResponse)  ReadField10(iprot thrift.TProtocol) error {
 }
 
 func (p *TxDetailResponse)  ReadField11(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadByte(); err != nil {
+  if v, err := iprot.ReadBinary(); err != nil {
   return thrift.PrependError("error reading field 11: ", err)
 } else {
-  temp := int8(v)
-  p.Ext = temp
+  p.Ext = v
 }
   return nil
 }
@@ -615,9 +614,9 @@ func (p *TxDetailResponse) writeField10(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *TxDetailResponse) writeField11(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("ext", thrift.BYTE, 11); err != nil {
+  if err := oprot.WriteFieldBegin("ext", thrift.STRING, 11); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field begin error 11:ext: ", p), err) }
-  if err := oprot.WriteByte(int8(p.Ext)); err != nil {
+  if err := oprot.WriteBinary(p.Ext); err != nil {
   return thrift.PrependError(fmt.Sprintf("%T.ext (11) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 11:ext: ", p), err) }

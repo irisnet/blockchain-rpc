@@ -4,7 +4,7 @@ namespace go model
  * @param tx, tx which has been signed
  */
 struct PostTxRequest {
-	1: i8 tx
+	1: binary tx
 }
 
 /** postTx response
