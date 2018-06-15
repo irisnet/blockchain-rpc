@@ -1,5 +1,5 @@
 # blockchain-rpc
-Common gRPC interface for all blockchains
+Common RPC interface for all blockChains
 
 # Generate Server Code
 
@@ -7,10 +7,10 @@ go example
 
 **1. Setup**
 
-[setup](https://grpc.io/docs/tutorials/basic/go.html#example-code-and-setup)
+[setup](http://thrift-tutorial.readthedocs.io/en/latest/installation.html)
 
 **2. Generating Server Code**
 
 ```
-protoc -I ./protocol --go_out=plugins=grpc:./codegen/server ./protocol/*.proto
+thrift -r -out ./codegen/server --gen go ./thrift/service_blockchain.thrift 
 ```
