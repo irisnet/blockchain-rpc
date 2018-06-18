@@ -466,3 +466,6 @@ TxListObject.prototype.write = function(output) {
   return;
 };
 
+export {
+    TxListRequest,TxListResponse,TxListObject
+}

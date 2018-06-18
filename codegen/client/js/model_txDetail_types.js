@@ -363,3 +363,7 @@ FeeUsed.prototype.write = function(output) {
   return;
 };
 
+
+export {
+    TxDetailRequest,TxDetailResponse,FeeUsed
+}

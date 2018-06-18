@@ -352,3 +352,4 @@ Exception.prototype.write = function(output) {
   return;
 };
 
+export  {Coin,Address,Fee,Memo,Exception}

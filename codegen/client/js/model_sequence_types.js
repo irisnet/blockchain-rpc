@@ -5,16 +5,16 @@
 //
 
 
-PostTxRequest = function(args) {
-  this.tx = null;
+SequenceRequest = function(args) {
+  this.address = null;
   if (args) {
-    if (args.tx !== undefined && args.tx !== null) {
-      this.tx = args.tx;
+    if (args.address !== undefined && args.address !== null) {
+      this.address = args.address;
     }
   }
 };
-PostTxRequest.prototype = {};
-PostTxRequest.prototype.read = function(input) {
+SequenceRequest.prototype = {};
+SequenceRequest.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -29,7 +29,7 @@ PostTxRequest.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.tx = input.readBinary().value;
+        this.address = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -46,11 +46,11 @@ PostTxRequest.prototype.read = function(input) {
   return;
 };
 
-PostTxRequest.prototype.write = function(output) {
-  output.writeStructBegin('PostTxRequest');
-  if (this.tx !== null && this.tx !== undefined) {
-    output.writeFieldBegin('tx', Thrift.Type.STRING, 1);
-    output.writeBinary(this.tx);
+SequenceRequest.prototype.write = function(output) {
+  output.writeStructBegin('SequenceRequest');
+  if (this.address !== null && this.address !== undefined) {
+    output.writeFieldBegin('address', Thrift.Type.STRING, 1);
+    output.writeString(this.address);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -58,16 +58,16 @@ PostTxRequest.prototype.write = function(output) {
   return;
 };
 
-PostTxResponse = function(args) {
-  this.txHash = null;
+SequenceResponse = function(args) {
+  this.sequence = null;
   if (args) {
-    if (args.txHash !== undefined && args.txHash !== null) {
-      this.txHash = args.txHash;
+    if (args.sequence !== undefined && args.sequence !== null) {
+      this.sequence = args.sequence;
     }
   }
 };
-PostTxResponse.prototype = {};
-PostTxResponse.prototype.read = function(input) {
+SequenceResponse.prototype = {};
+SequenceResponse.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -81,8 +81,8 @@ PostTxResponse.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.STRING) {
-        this.txHash = input.readString().value;
+      if (ftype == Thrift.Type.I64) {
+        this.sequence = input.readI64().value;
       } else {
         input.skip(ftype);
       }
@@ -99,11 +99,11 @@ PostTxResponse.prototype.read = function(input) {
   return;
 };
 
-PostTxResponse.prototype.write = function(output) {
-  output.writeStructBegin('PostTxResponse');
-  if (this.txHash !== null && this.txHash !== undefined) {
-    output.writeFieldBegin('txHash', Thrift.Type.STRING, 1);
-    output.writeString(this.txHash);
+SequenceResponse.prototype.write = function(output) {
+  output.writeStructBegin('SequenceResponse');
+  if (this.sequence !== null && this.sequence !== undefined) {
+    output.writeFieldBegin('sequence', Thrift.Type.I64, 1);
+    output.writeI64(this.sequence);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -111,3 +111,6 @@ PostTxResponse.prototype.write = function(output) {
   return;
 };
 
+export {
+    SequenceRequest,SequenceResponse
+}

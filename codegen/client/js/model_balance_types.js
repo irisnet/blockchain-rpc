@@ -134,3 +134,8 @@ BalanceResponse.prototype.write = function(output) {
   return;
 };
 
+export {
+
+    BalanceRequest,
+    BalanceResponse
+}

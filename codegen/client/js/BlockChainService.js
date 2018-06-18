@@ -1093,3 +1093,19 @@ BlockChainServiceClient.prototype.recv_GetTxDetail = function() {
   }
   throw 'GetTxDetail failed: unknown result';
 };
+
+export {
+    BlockChainService_BuildTx_args,
+    BlockChainService_BuildTx_result,
+    BlockChainService_PostTx_args,
+    BlockChainService_PostTx_result,
+    BlockChainService_GetSequence_args,
+    BlockChainService_GetSequence_result,
+    BlockChainService_GetBalance_args,
+    BlockChainService_GetBalance_result,
+    BlockChainService_GetTxList_args,
+    BlockChainService_GetTxList_result,
+    BlockChainService_GetTxDetail_args,
+    BlockChainService_GetTxDetail_result,
+    BlockChainServiceClient
+}

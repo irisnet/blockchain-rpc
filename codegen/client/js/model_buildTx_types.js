@@ -215,3 +215,4 @@ BuildTxResponse.prototype.write = function(output) {
   return;
 };
 
+export {BuildTxRequest,BuildTxResponse}
