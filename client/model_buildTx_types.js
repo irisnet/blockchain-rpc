@@ -5,7 +5,7 @@
 //
 
 import {Thrift} from "./thrift";
-BuildTxRequest = function(args) {
+var BuildTxRequest = function(args) {
   this.sequence = null;
   this.sender = null;
   this.receiver = null;
@@ -162,7 +162,7 @@ BuildTxRequest.prototype.write = function(output) {
   return;
 };
 
-BuildTxResponse = function(args) {
+var BuildTxResponse = function(args) {
   this.data = null;
   if (args) {
     if (args.data !== undefined && args.data !== null) {

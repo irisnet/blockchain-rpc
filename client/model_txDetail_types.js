@@ -5,7 +5,7 @@
 //
 import {Thrift} from "./thrift";
 
-TxDetailRequest = function(args) {
+var TxDetailRequest = function(args) {
   this.txHash = null;
   if (args) {
     if (args.txHash !== undefined && args.txHash !== null) {
@@ -60,7 +60,7 @@ TxDetailRequest.prototype.write = function(output) {
   return;
 };
 
-TxDetailResponse = function(args) {
+var TxDetailResponse = function(args) {
   this.txHash = null;
   this.time = null;
   this.height = null;
@@ -297,7 +297,7 @@ TxDetailResponse.prototype.write = function(output) {
   return;
 };
 
-FeeUsed = function(args) {
+var FeeUsed = function(args) {
   this.denom = null;
   this.cost = null;
   if (args) {

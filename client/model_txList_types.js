@@ -5,7 +5,7 @@
 //
 import {Thrift} from "./thrift";
 
-TxListRequest = function(args) {
+var TxListRequest = function(args) {
   this.address = null;
   this.page = null;
   this.perPage = null;
@@ -187,7 +187,7 @@ TxListRequest.prototype.write = function(output) {
   return;
 };
 
-TxListResponse = function(args) {
+var TxListResponse = function(args) {
   this.txs = null;
   if (args) {
     if (args.txs !== undefined && args.txs !== null) {
@@ -263,7 +263,7 @@ TxListResponse.prototype.write = function(output) {
   return;
 };
 
-TxListObject = function(args) {
+var TxListObject = function(args) {
   this.txHash = null;
   this.time = null;
   this.height = null;

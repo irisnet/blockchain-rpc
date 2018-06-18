@@ -5,7 +5,7 @@
 //
 import {Thrift} from "./thrift";
 
-PostTxRequest = function(args) {
+var PostTxRequest = function(args) {
   this.tx = null;
   if (args) {
     if (args.tx !== undefined && args.tx !== null) {
@@ -58,7 +58,7 @@ PostTxRequest.prototype.write = function(output) {
   return;
 };
 
-PostTxResponse = function(args) {
+var PostTxResponse = function(args) {
   this.txHash = null;
   if (args) {
     if (args.txHash !== undefined && args.txHash !== null) {

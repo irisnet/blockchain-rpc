@@ -5,7 +5,7 @@
 //
 import {Thrift} from "./thrift";
 
-SequenceRequest = function(args) {
+var SequenceRequest = function(args) {
   this.address = null;
   if (args) {
     if (args.address !== undefined && args.address !== null) {
@@ -58,7 +58,7 @@ SequenceRequest.prototype.write = function(output) {
   return;
 };
 
-SequenceResponse = function(args) {
+var SequenceResponse = function(args) {
   this.sequence = null;
   if (args) {
     if (args.sequence !== undefined && args.sequence !== null) {
