@@ -6,6 +6,7 @@
 
 
 //HELPER FUNCTIONS AND STRUCTURES
+import {Thrift} from "./thrift";
 
 BlockChainService_BuildTx_args = function(args) {
   this.req = null;

@@ -4,7 +4,7 @@
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
 
-
+import {Thrift} from "./thrift";
 Coin = function(args) {
   this.amount = null;
   this.denom = null;

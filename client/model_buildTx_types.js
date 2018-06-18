@@ -4,7 +4,7 @@
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
 
-
+import {Thrift} from "./thrift";
 BuildTxRequest = function(args) {
   this.sequence = null;
   this.sender = null;
