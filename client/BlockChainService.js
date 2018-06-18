@@ -6,8 +6,9 @@
 
 
 //HELPER FUNCTIONS AND STRUCTURES
+import {Thrift} from "./thrift";
 
-BlockChainService_BuildTx_args = function(args) {
+var BlockChainService_BuildTx_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -61,7 +62,7 @@ BlockChainService_BuildTx_args.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_BuildTx_result = function(args) {
+var BlockChainService_BuildTx_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -133,7 +134,7 @@ BlockChainService_BuildTx_result.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_PostTx_args = function(args) {
+var BlockChainService_PostTx_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -187,7 +188,7 @@ BlockChainService_PostTx_args.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_PostTx_result = function(args) {
+var BlockChainService_PostTx_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -259,7 +260,7 @@ BlockChainService_PostTx_result.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetSequence_args = function(args) {
+var BlockChainService_GetSequence_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -313,7 +314,7 @@ BlockChainService_GetSequence_args.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetSequence_result = function(args) {
+var BlockChainService_GetSequence_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -385,7 +386,7 @@ BlockChainService_GetSequence_result.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetBalance_args = function(args) {
+var BlockChainService_GetBalance_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -439,7 +440,7 @@ BlockChainService_GetBalance_args.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetBalance_result = function(args) {
+var BlockChainService_GetBalance_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -511,7 +512,7 @@ BlockChainService_GetBalance_result.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetTxList_args = function(args) {
+var BlockChainService_GetTxList_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -565,7 +566,7 @@ BlockChainService_GetTxList_args.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetTxList_result = function(args) {
+var BlockChainService_GetTxList_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -637,7 +638,7 @@ BlockChainService_GetTxList_result.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetTxDetail_args = function(args) {
+var BlockChainService_GetTxDetail_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -691,7 +692,7 @@ BlockChainService_GetTxDetail_args.prototype.write = function(output) {
   return;
 };
 
-BlockChainService_GetTxDetail_result = function(args) {
+var BlockChainService_GetTxDetail_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -763,7 +764,7 @@ BlockChainService_GetTxDetail_result.prototype.write = function(output) {
   return;
 };
 
-BlockChainServiceClient = function(input, output) {
+var BlockChainServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
     this.seqid = 0;
