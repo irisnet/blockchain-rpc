@@ -339,13 +339,17 @@ Thrift.TXHRTransport.prototype = {
      * @returns {undefined|string} Nothing or the current send buffer.
      * @throws {string} If XHR fails.
      */
-    flush: function(async, callback) {
+    flush: function(async, callback, option) {
         var self = this;
         if ((async && !callback) || this.url === undefined || this.url === '') {
             return this.send_buf;
         }
 
         var xreq = this.getXmlHttpRequestObject();
+		if(option) {
+            xreq.timeout = option.timeout;
+            xreq.ontimeout = (option.timeout_callback)();
+        }
 
         if (xreq.overrideMimeType) {
             xreq.overrideMimeType('application/vnd.apache.thrift.json; charset=utf-8');
