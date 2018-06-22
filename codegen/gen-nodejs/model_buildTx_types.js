@@ -172,9 +172,13 @@ BuildTxRequest.prototype.write = function(output) {
 
 var BuildTxResponse = module.exports.BuildTxResponse = function(args) {
   this.data = null;
+  this.ext = null;
   if (args) {
     if (args.data !== undefined && args.data !== null) {
       this.data = args.data;
+    }
+    if (args.ext !== undefined && args.ext !== null) {
+      this.ext = args.ext;
     }
   }
 };
@@ -199,9 +203,13 @@ BuildTxResponse.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.ext = input.readBinary();
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -216,6 +224,11 @@ BuildTxResponse.prototype.write = function(output) {
   if (this.data !== null && this.data !== undefined) {
     output.writeFieldBegin('data', Thrift.Type.STRING, 1);
     output.writeBinary(this.data);
+    output.writeFieldEnd();
+  }
+  if (this.ext !== null && this.ext !== undefined) {
+    output.writeFieldBegin('ext', Thrift.Type.STRING, 2);
+    output.writeBinary(this.ext);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

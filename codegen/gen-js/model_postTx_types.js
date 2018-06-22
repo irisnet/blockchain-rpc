@@ -3,9 +3,9 @@
 //
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
-import {Thrift} from "./thrift";
 
-var PostTxRequest = function(args) {
+
+PostTxRequest = function(args) {
   this.tx = null;
   if (args) {
     if (args.tx !== undefined && args.tx !== null) {
@@ -58,7 +58,7 @@ PostTxRequest.prototype.write = function(output) {
   return;
 };
 
-var PostTxResponse = function(args) {
+PostTxResponse = function(args) {
   this.txHash = null;
   if (args) {
     if (args.txHash !== undefined && args.txHash !== null) {
@@ -111,7 +111,3 @@ PostTxResponse.prototype.write = function(output) {
   return;
 };
 
-export {
-    PostTxRequest,
-    PostTxResponse
-}

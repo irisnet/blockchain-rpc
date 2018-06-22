@@ -4,8 +4,8 @@
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
 
-import {Thrift} from "./thrift";
-var Coin = function(args) {
+
+Coin = function(args) {
   this.amount = null;
   this.denom = null;
   if (args) {
@@ -71,7 +71,7 @@ Coin.prototype.write = function(output) {
   return;
 };
 
-var Address = function(args) {
+Address = function(args) {
   this.chain = null;
   this.app = null;
   this.addr = null;
@@ -153,7 +153,7 @@ Address.prototype.write = function(output) {
   return;
 };
 
-var Fee = function(args) {
+Fee = function(args) {
   this.amount = null;
   this.denom = null;
   if (args) {
@@ -219,7 +219,7 @@ Fee.prototype.write = function(output) {
   return;
 };
 
-var Memo = function(args) {
+Memo = function(args) {
   this.id = null;
   this.text = null;
   if (args) {
@@ -285,7 +285,7 @@ Memo.prototype.write = function(output) {
   return;
 };
 
-var Exception = function(args) {
+Exception = function(args) {
   this.errCode = null;
   this.errMsg = null;
   if (args) {
@@ -352,4 +352,3 @@ Exception.prototype.write = function(output) {
   return;
 };
 
-export  {Coin,Address,Fee,Memo,Exception}

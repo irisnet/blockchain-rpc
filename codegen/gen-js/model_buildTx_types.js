@@ -4,8 +4,8 @@
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
 
-import {Thrift} from "./thrift";
-var BuildTxRequest = function(args) {
+
+BuildTxRequest = function(args) {
   this.sequence = null;
   this.sender = null;
   this.receiver = null;
@@ -162,11 +162,15 @@ BuildTxRequest.prototype.write = function(output) {
   return;
 };
 
-var BuildTxResponse = function(args) {
+BuildTxResponse = function(args) {
   this.data = null;
+  this.ext = null;
   if (args) {
     if (args.data !== undefined && args.data !== null) {
       this.data = args.data;
+    }
+    if (args.ext !== undefined && args.ext !== null) {
+      this.ext = args.ext;
     }
   }
 };
@@ -191,9 +195,13 @@ BuildTxResponse.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.ext = input.readBinary().value;
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -210,9 +218,13 @@ BuildTxResponse.prototype.write = function(output) {
     output.writeBinary(this.data);
     output.writeFieldEnd();
   }
+  if (this.ext !== null && this.ext !== undefined) {
+    output.writeFieldBegin('ext', Thrift.Type.STRING, 2);
+    output.writeBinary(this.ext);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
 };
 
-export {BuildTxRequest,BuildTxResponse}

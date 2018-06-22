@@ -3,9 +3,9 @@
 //
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
-import {Thrift} from "./thrift";
 
-var TxListRequest = function(args) {
+
+TxListRequest = function(args) {
   this.address = null;
   this.page = null;
   this.perPage = null;
@@ -187,7 +187,7 @@ TxListRequest.prototype.write = function(output) {
   return;
 };
 
-var TxListResponse = function(args) {
+TxListResponse = function(args) {
   this.txs = null;
   if (args) {
     if (args.txs !== undefined && args.txs !== null) {
@@ -263,7 +263,7 @@ TxListResponse.prototype.write = function(output) {
   return;
 };
 
-var TxListObject = function(args) {
+TxListObject = function(args) {
   this.txHash = null;
   this.time = null;
   this.height = null;
@@ -466,6 +466,3 @@ TxListObject.prototype.write = function(output) {
   return;
 };
 
-export {
-    TxListRequest,TxListResponse,TxListObject
-}

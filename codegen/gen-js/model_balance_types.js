@@ -3,9 +3,9 @@
 //
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
-import {Thrift} from "./thrift";
 
-var BalanceRequest = function(args) {
+
+BalanceRequest = function(args) {
   this.address = null;
   if (args) {
     if (args.address !== undefined && args.address !== null) {
@@ -58,7 +58,7 @@ BalanceRequest.prototype.write = function(output) {
   return;
 };
 
-var BalanceResponse = function(args) {
+BalanceResponse = function(args) {
   this.coins = null;
   if (args) {
     if (args.coins !== undefined && args.coins !== null) {
@@ -134,8 +134,3 @@ BalanceResponse.prototype.write = function(output) {
   return;
 };
 
-export {
-
-    BalanceRequest,
-    BalanceResponse
-}

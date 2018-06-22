@@ -6,9 +6,8 @@
 
 
 //HELPER FUNCTIONS AND STRUCTURES
-import {Thrift} from "./thrift";
 
-var BlockChainService_BuildTx_args = function(args) {
+BlockChainService_BuildTx_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -62,7 +61,7 @@ BlockChainService_BuildTx_args.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_BuildTx_result = function(args) {
+BlockChainService_BuildTx_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -134,7 +133,7 @@ BlockChainService_BuildTx_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_PostTx_args = function(args) {
+BlockChainService_PostTx_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -188,7 +187,7 @@ BlockChainService_PostTx_args.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_PostTx_result = function(args) {
+BlockChainService_PostTx_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -260,7 +259,7 @@ BlockChainService_PostTx_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetSequence_args = function(args) {
+BlockChainService_GetSequence_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -314,7 +313,7 @@ BlockChainService_GetSequence_args.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetSequence_result = function(args) {
+BlockChainService_GetSequence_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -386,7 +385,7 @@ BlockChainService_GetSequence_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetBalance_args = function(args) {
+BlockChainService_GetBalance_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -440,7 +439,7 @@ BlockChainService_GetBalance_args.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetBalance_result = function(args) {
+BlockChainService_GetBalance_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -512,7 +511,7 @@ BlockChainService_GetBalance_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetTxList_args = function(args) {
+BlockChainService_GetTxList_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -566,7 +565,7 @@ BlockChainService_GetTxList_args.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetTxList_result = function(args) {
+BlockChainService_GetTxList_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -638,7 +637,7 @@ BlockChainService_GetTxList_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetTxDetail_args = function(args) {
+BlockChainService_GetTxDetail_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
@@ -692,7 +691,7 @@ BlockChainService_GetTxDetail_args.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetTxDetail_result = function(args) {
+BlockChainService_GetTxDetail_result = function(args) {
   this.success = null;
   this.e = null;
   if (args instanceof Exception) {
@@ -764,7 +763,7 @@ BlockChainService_GetTxDetail_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainServiceClient = function(input, output) {
+BlockChainServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
     this.seqid = 0;
@@ -1094,19 +1093,3 @@ BlockChainServiceClient.prototype.recv_GetTxDetail = function() {
   }
   throw 'GetTxDetail failed: unknown result';
 };
-
-export {
-    BlockChainService_BuildTx_args,
-    BlockChainService_BuildTx_result,
-    BlockChainService_PostTx_args,
-    BlockChainService_PostTx_result,
-    BlockChainService_GetSequence_args,
-    BlockChainService_GetSequence_result,
-    BlockChainService_GetBalance_args,
-    BlockChainService_GetBalance_result,
-    BlockChainService_GetTxList_args,
-    BlockChainService_GetTxList_result,
-    BlockChainService_GetTxDetail_args,
-    BlockChainService_GetTxDetail_result,
-    BlockChainServiceClient
-}
