@@ -34,6 +34,7 @@ var _ = bytes.Equal
 //  - Amount
 //  - Fee
 //  - Memo
+//  - TxType
 type BuildTxRequest struct {
   Sequence int64 `thrift:"sequence,1" db:"sequence" json:"sequence"`
   Sender *Address `thrift:"sender,2" db:"sender" json:"sender"`
@@ -41,6 +42,7 @@ type BuildTxRequest struct {
   Amount []*Coin `thrift:"amount,4" db:"amount" json:"amount"`
   Fee *Fee `thrift:"fee,5" db:"fee" json:"fee"`
   Memo *Memo `thrift:"memo,6" db:"memo" json:"memo"`
+  TxType string `thrift:"txType,7" db:"txType" json:"txType"`
 }
 
 func NewBuildTxRequest() *BuildTxRequest {
@@ -82,6 +84,10 @@ func (p *BuildTxRequest) GetMemo() *Memo {
     return BuildTxRequest_Memo_DEFAULT
   }
 return p.Memo
+}
+
+func (p *BuildTxRequest) GetTxType() string {
+  return p.TxType
 }
 func (p *BuildTxRequest) IsSetSender() bool {
   return p.Sender != nil
@@ -172,6 +178,16 @@ func (p *BuildTxRequest) Read(iprot thrift.TProtocol) error {
           return err
         }
       }
+    case 7:
+      if fieldTypeId == thrift.STRING {
+        if err := p.ReadField7(iprot); err != nil {
+          return err
+        }
+      } else {
+        if err := iprot.Skip(fieldTypeId); err != nil {
+          return err
+        }
+      }
     default:
       if err := iprot.Skip(fieldTypeId); err != nil {
         return err
@@ -248,6 +264,15 @@ func (p *BuildTxRequest)  ReadField6(iprot thrift.TProtocol) error {
   return nil
 }
 
+func (p *BuildTxRequest)  ReadField7(iprot thrift.TProtocol) error {
+  if v, err := iprot.ReadString(); err != nil {
+  return thrift.PrependError("error reading field 7: ", err)
+} else {
+  p.TxType = v
+}
+  return nil
+}
+
 func (p *BuildTxRequest) Write(oprot thrift.TProtocol) error {
   if err := oprot.WriteStructBegin("BuildTxRequest"); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
@@ -258,6 +283,7 @@ func (p *BuildTxRequest) Write(oprot thrift.TProtocol) error {
     if err := p.writeField4(oprot); err != nil { return err }
     if err := p.writeField5(oprot); err != nil { return err }
     if err := p.writeField6(oprot); err != nil { return err }
+    if err := p.writeField7(oprot); err != nil { return err }
   }
   if err := oprot.WriteFieldStop(); err != nil {
     return thrift.PrependError("write field stop error: ", err) }
@@ -336,6 +362,16 @@ func (p *BuildTxRequest) writeField6(oprot thrift.TProtocol) (err error) {
   }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 6:memo: ", p), err) }
+  return err
+}
+
+func (p *BuildTxRequest) writeField7(oprot thrift.TProtocol) (err error) {
+  if err := oprot.WriteFieldBegin("txType", thrift.STRING, 7); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 7:txType: ", p), err) }
+  if err := oprot.WriteString(string(p.TxType)); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.txType (7) field write error: ", p), err) }
+  if err := oprot.WriteFieldEnd(); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 7:txType: ", p), err) }
   return err
 }
 
