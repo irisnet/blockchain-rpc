@@ -16,7 +16,8 @@ struct BuildTxRequest {
 	3: model_common.Address receiver,
 	4: list<model_common.Coin> amount,
 	5: model_common.Fee fee,
-	6: model_common.Memo memo
+	6: model_common.Memo memo,
+	7: string txType
 }
 
 /** buildTx response
