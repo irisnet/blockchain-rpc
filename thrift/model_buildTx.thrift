@@ -24,4 +24,5 @@ struct BuildTxRequest {
  */
 struct BuildTxResponse {
 	1: binary data
+	2: binary ext
 }
