@@ -12,6 +12,7 @@ BuildTxRequest = function(args) {
   this.amount = null;
   this.fee = null;
   this.memo = null;
+  this.txType = null;
   if (args) {
     if (args.sequence !== undefined && args.sequence !== null) {
       this.sequence = args.sequence;
@@ -30,6 +31,9 @@ BuildTxRequest = function(args) {
     }
     if (args.memo !== undefined && args.memo !== null) {
       this.memo = new Memo(args.memo);
+    }
+    if (args.txType !== undefined && args.txType !== null) {
+      this.txType = args.txType;
     }
   }
 };
@@ -107,6 +111,13 @@ BuildTxRequest.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 7:
+      if (ftype == Thrift.Type.STRING) {
+        this.txType = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -155,6 +166,11 @@ BuildTxRequest.prototype.write = function(output) {
   if (this.memo !== null && this.memo !== undefined) {
     output.writeFieldBegin('memo', Thrift.Type.STRUCT, 6);
     this.memo.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.txType !== null && this.txType !== undefined) {
+    output.writeFieldBegin('txType', Thrift.Type.STRING, 7);
+    output.writeString(this.txType);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
