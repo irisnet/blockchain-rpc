@@ -9,23 +9,143 @@ var thrift = require('thrift');
 var Thrift = thrift.Thrift;
 var Q = thrift.Q;
 
-var model_common_ttypes = require('./model_common_types');
-var model_buildTx_ttypes = require('./model_buildTx_types');
-var model_postTx_ttypes = require('./model_postTx_types');
-var model_sequence_ttypes = require('./model_sequence_types');
-var model_balance_ttypes = require('./model_balance_types');
-var model_txList_ttypes = require('./model_txList_types');
-var model_txDetail_ttypes = require('./model_txDetail_types');
+var model_ttypes = require('./model_types');
 
 
-var ttypes = require('./service_blockchain_types');
+var ttypes = require('./service_types');
 //HELPER FUNCTIONS AND STRUCTURES
+
+var BlockChainService_GetSequence_args = function(args) {
+  this.req = null;
+  if (args) {
+    if (args.req !== undefined && args.req !== null) {
+      this.req = new model_ttypes.SequenceRequest(args.req);
+    }
+  }
+};
+BlockChainService_GetSequence_args.prototype = {};
+BlockChainService_GetSequence_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.req = new model_ttypes.SequenceRequest();
+        this.req.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+BlockChainService_GetSequence_args.prototype.write = function(output) {
+  output.writeStructBegin('BlockChainService_GetSequence_args');
+  if (this.req !== null && this.req !== undefined) {
+    output.writeFieldBegin('req', Thrift.Type.STRUCT, 1);
+    this.req.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var BlockChainService_GetSequence_result = function(args) {
+  this.success = null;
+  this.e = null;
+  if (args instanceof model_ttypes.Exception) {
+    this.e = args;
+    return;
+  }
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new model_ttypes.SequenceResponse(args.success);
+    }
+    if (args.e !== undefined && args.e !== null) {
+      this.e = args.e;
+    }
+  }
+};
+BlockChainService_GetSequence_result.prototype = {};
+BlockChainService_GetSequence_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new model_ttypes.SequenceResponse();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.e = new model_ttypes.Exception();
+        this.e.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+BlockChainService_GetSequence_result.prototype.write = function(output) {
+  output.writeStructBegin('BlockChainService_GetSequence_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.e !== null && this.e !== undefined) {
+    output.writeFieldBegin('e', Thrift.Type.STRUCT, 1);
+    this.e.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
 
 var BlockChainService_BuildTx_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
-      this.req = new model_buildTx_ttypes.BuildTxRequest(args.req);
+      this.req = new model_ttypes.BuildTxRequest(args.req);
     }
   }
 };
@@ -45,7 +165,7 @@ BlockChainService_BuildTx_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.req = new model_buildTx_ttypes.BuildTxRequest();
+        this.req = new model_ttypes.BuildTxRequest();
         this.req.read(input);
       } else {
         input.skip(ftype);
@@ -78,13 +198,13 @@ BlockChainService_BuildTx_args.prototype.write = function(output) {
 var BlockChainService_BuildTx_result = function(args) {
   this.success = null;
   this.e = null;
-  if (args instanceof model_common_ttypes.Exception) {
+  if (args instanceof model_ttypes.Exception) {
     this.e = args;
     return;
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new model_buildTx_ttypes.BuildTxResponse(args.success);
+      this.success = new model_ttypes.BuildTxResponse(args.success);
     }
     if (args.e !== undefined && args.e !== null) {
       this.e = args.e;
@@ -107,7 +227,7 @@ BlockChainService_BuildTx_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new model_buildTx_ttypes.BuildTxResponse();
+        this.success = new model_ttypes.BuildTxResponse();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -115,7 +235,7 @@ BlockChainService_BuildTx_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.e = new model_common_ttypes.Exception();
+        this.e = new model_ttypes.Exception();
         this.e.read(input);
       } else {
         input.skip(ftype);
@@ -151,7 +271,7 @@ var BlockChainService_PostTx_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
-      this.req = new model_postTx_ttypes.PostTxRequest(args.req);
+      this.req = new model_ttypes.PostTxRequest(args.req);
     }
   }
 };
@@ -171,7 +291,7 @@ BlockChainService_PostTx_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.req = new model_postTx_ttypes.PostTxRequest();
+        this.req = new model_ttypes.PostTxRequest();
         this.req.read(input);
       } else {
         input.skip(ftype);
@@ -204,13 +324,13 @@ BlockChainService_PostTx_args.prototype.write = function(output) {
 var BlockChainService_PostTx_result = function(args) {
   this.success = null;
   this.e = null;
-  if (args instanceof model_common_ttypes.Exception) {
+  if (args instanceof model_ttypes.Exception) {
     this.e = args;
     return;
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new model_postTx_ttypes.PostTxResponse(args.success);
+      this.success = new model_ttypes.PostTxResponse(args.success);
     }
     if (args.e !== undefined && args.e !== null) {
       this.e = args.e;
@@ -233,7 +353,7 @@ BlockChainService_PostTx_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new model_postTx_ttypes.PostTxResponse();
+        this.success = new model_ttypes.PostTxResponse();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -241,7 +361,7 @@ BlockChainService_PostTx_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.e = new model_common_ttypes.Exception();
+        this.e = new model_ttypes.Exception();
         this.e.read(input);
       } else {
         input.skip(ftype);
@@ -273,137 +393,11 @@ BlockChainService_PostTx_result.prototype.write = function(output) {
   return;
 };
 
-var BlockChainService_GetSequence_args = function(args) {
-  this.req = null;
-  if (args) {
-    if (args.req !== undefined && args.req !== null) {
-      this.req = new model_sequence_ttypes.SequenceRequest(args.req);
-    }
-  }
-};
-BlockChainService_GetSequence_args.prototype = {};
-BlockChainService_GetSequence_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.req = new model_sequence_ttypes.SequenceRequest();
-        this.req.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-BlockChainService_GetSequence_args.prototype.write = function(output) {
-  output.writeStructBegin('BlockChainService_GetSequence_args');
-  if (this.req !== null && this.req !== undefined) {
-    output.writeFieldBegin('req', Thrift.Type.STRUCT, 1);
-    this.req.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-var BlockChainService_GetSequence_result = function(args) {
-  this.success = null;
-  this.e = null;
-  if (args instanceof model_common_ttypes.Exception) {
-    this.e = args;
-    return;
-  }
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = new model_sequence_ttypes.SequenceResponse(args.success);
-    }
-    if (args.e !== undefined && args.e !== null) {
-      this.e = args.e;
-    }
-  }
-};
-BlockChainService_GetSequence_result.prototype = {};
-BlockChainService_GetSequence_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.success = new model_sequence_ttypes.SequenceResponse();
-        this.success.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.e = new model_common_ttypes.Exception();
-        this.e.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-BlockChainService_GetSequence_result.prototype.write = function(output) {
-  output.writeStructBegin('BlockChainService_GetSequence_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
-    this.success.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.e !== null && this.e !== undefined) {
-    output.writeFieldBegin('e', Thrift.Type.STRUCT, 1);
-    this.e.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
 var BlockChainService_GetBalance_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
-      this.req = new model_balance_ttypes.BalanceRequest(args.req);
+      this.req = new model_ttypes.BalanceRequest(args.req);
     }
   }
 };
@@ -423,7 +417,7 @@ BlockChainService_GetBalance_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.req = new model_balance_ttypes.BalanceRequest();
+        this.req = new model_ttypes.BalanceRequest();
         this.req.read(input);
       } else {
         input.skip(ftype);
@@ -456,13 +450,13 @@ BlockChainService_GetBalance_args.prototype.write = function(output) {
 var BlockChainService_GetBalance_result = function(args) {
   this.success = null;
   this.e = null;
-  if (args instanceof model_common_ttypes.Exception) {
+  if (args instanceof model_ttypes.Exception) {
     this.e = args;
     return;
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new model_balance_ttypes.BalanceResponse(args.success);
+      this.success = new model_ttypes.BalanceResponse(args.success);
     }
     if (args.e !== undefined && args.e !== null) {
       this.e = args.e;
@@ -485,7 +479,7 @@ BlockChainService_GetBalance_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new model_balance_ttypes.BalanceResponse();
+        this.success = new model_ttypes.BalanceResponse();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -493,7 +487,7 @@ BlockChainService_GetBalance_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.e = new model_common_ttypes.Exception();
+        this.e = new model_ttypes.Exception();
         this.e.read(input);
       } else {
         input.skip(ftype);
@@ -529,7 +523,7 @@ var BlockChainService_GetTxList_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
-      this.req = new model_txList_ttypes.TxListRequest(args.req);
+      this.req = new model_ttypes.TxListRequest(args.req);
     }
   }
 };
@@ -549,7 +543,7 @@ BlockChainService_GetTxList_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.req = new model_txList_ttypes.TxListRequest();
+        this.req = new model_ttypes.TxListRequest();
         this.req.read(input);
       } else {
         input.skip(ftype);
@@ -582,13 +576,13 @@ BlockChainService_GetTxList_args.prototype.write = function(output) {
 var BlockChainService_GetTxList_result = function(args) {
   this.success = null;
   this.e = null;
-  if (args instanceof model_common_ttypes.Exception) {
+  if (args instanceof model_ttypes.Exception) {
     this.e = args;
     return;
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new model_txList_ttypes.TxListResponse(args.success);
+      this.success = Thrift.copyList(args.success, [model_ttypes.Tx]);
     }
     if (args.e !== undefined && args.e !== null) {
       this.e = args.e;
@@ -610,16 +604,29 @@ BlockChainService_GetTxList_result.prototype.read = function(input) {
     switch (fid)
     {
       case 0:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.success = new model_txList_ttypes.TxListResponse();
-        this.success.read(input);
+      if (ftype == Thrift.Type.LIST) {
+        var _size0 = 0;
+        var _rtmp34;
+        this.success = [];
+        var _etype3 = 0;
+        _rtmp34 = input.readListBegin();
+        _etype3 = _rtmp34.etype;
+        _size0 = _rtmp34.size;
+        for (var _i5 = 0; _i5 < _size0; ++_i5)
+        {
+          var elem6 = null;
+          elem6 = new model_ttypes.Tx();
+          elem6.read(input);
+          this.success.push(elem6);
+        }
+        input.readListEnd();
       } else {
         input.skip(ftype);
       }
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.e = new model_common_ttypes.Exception();
+        this.e = new model_ttypes.Exception();
         this.e.read(input);
       } else {
         input.skip(ftype);
@@ -637,8 +644,17 @@ BlockChainService_GetTxList_result.prototype.read = function(input) {
 BlockChainService_GetTxList_result.prototype.write = function(output) {
   output.writeStructBegin('BlockChainService_GetTxList_result');
   if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
-    this.success.write(output);
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter7 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter7))
+      {
+        iter7 = this.success[iter7];
+        iter7.write(output);
+      }
+    }
+    output.writeListEnd();
     output.writeFieldEnd();
   }
   if (this.e !== null && this.e !== undefined) {
@@ -655,7 +671,7 @@ var BlockChainService_GetTxDetail_args = function(args) {
   this.req = null;
   if (args) {
     if (args.req !== undefined && args.req !== null) {
-      this.req = new model_txDetail_ttypes.TxDetailRequest(args.req);
+      this.req = new model_ttypes.TxDetailRequest(args.req);
     }
   }
 };
@@ -675,7 +691,7 @@ BlockChainService_GetTxDetail_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.req = new model_txDetail_ttypes.TxDetailRequest();
+        this.req = new model_ttypes.TxDetailRequest();
         this.req.read(input);
       } else {
         input.skip(ftype);
@@ -708,13 +724,13 @@ BlockChainService_GetTxDetail_args.prototype.write = function(output) {
 var BlockChainService_GetTxDetail_result = function(args) {
   this.success = null;
   this.e = null;
-  if (args instanceof model_common_ttypes.Exception) {
+  if (args instanceof model_ttypes.Exception) {
     this.e = args;
     return;
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new model_txDetail_ttypes.TxDetailResponse(args.success);
+      this.success = new model_ttypes.Tx(args.success);
     }
     if (args.e !== undefined && args.e !== null) {
       this.e = args.e;
@@ -737,7 +753,7 @@ BlockChainService_GetTxDetail_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new model_txDetail_ttypes.TxDetailResponse();
+        this.success = new model_ttypes.Tx();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -745,7 +761,7 @@ BlockChainService_GetTxDetail_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.e = new model_common_ttypes.Exception();
+        this.e = new model_ttypes.Exception();
         this.e.read(input);
       } else {
         input.skip(ftype);
@@ -786,6 +802,58 @@ var BlockChainServiceClient = exports.Client = function(output, pClass) {
 BlockChainServiceClient.prototype = {};
 BlockChainServiceClient.prototype.seqid = function() { return this._seqid; };
 BlockChainServiceClient.prototype.new_seqid = function() { return this._seqid += 1; };
+BlockChainServiceClient.prototype.GetSequence = function(req, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_GetSequence(req);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_GetSequence(req);
+  }
+};
+
+BlockChainServiceClient.prototype.send_GetSequence = function(req) {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('GetSequence', Thrift.MessageType.CALL, this.seqid());
+  var params = {
+    req: req
+  };
+  var args = new BlockChainService_GetSequence_args(params);
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
+
+BlockChainServiceClient.prototype.recv_GetSequence = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new BlockChainService_GetSequence_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.e) {
+    return callback(result.e);
+  }
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('GetSequence failed: unknown result');
+};
 BlockChainServiceClient.prototype.BuildTx = function(req, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -889,58 +957,6 @@ BlockChainServiceClient.prototype.recv_PostTx = function(input,mtype,rseqid) {
     return callback(null, result.success);
   }
   return callback('PostTx failed: unknown result');
-};
-BlockChainServiceClient.prototype.GetSequence = function(req, callback) {
-  this._seqid = this.new_seqid();
-  if (callback === undefined) {
-    var _defer = Q.defer();
-    this._reqs[this.seqid()] = function(error, result) {
-      if (error) {
-        _defer.reject(error);
-      } else {
-        _defer.resolve(result);
-      }
-    };
-    this.send_GetSequence(req);
-    return _defer.promise;
-  } else {
-    this._reqs[this.seqid()] = callback;
-    this.send_GetSequence(req);
-  }
-};
-
-BlockChainServiceClient.prototype.send_GetSequence = function(req) {
-  var output = new this.pClass(this.output);
-  output.writeMessageBegin('GetSequence', Thrift.MessageType.CALL, this.seqid());
-  var params = {
-    req: req
-  };
-  var args = new BlockChainService_GetSequence_args(params);
-  args.write(output);
-  output.writeMessageEnd();
-  return this.output.flush();
-};
-
-BlockChainServiceClient.prototype.recv_GetSequence = function(input,mtype,rseqid) {
-  var callback = this._reqs[rseqid] || function() {};
-  delete this._reqs[rseqid];
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(input);
-    input.readMessageEnd();
-    return callback(x);
-  }
-  var result = new BlockChainService_GetSequence_result();
-  result.read(input);
-  input.readMessageEnd();
-
-  if (null !== result.e) {
-    return callback(result.e);
-  }
-  if (null !== result.success) {
-    return callback(null, result.success);
-  }
-  return callback('GetSequence failed: unknown result');
 };
 BlockChainServiceClient.prototype.GetBalance = function(req, callback) {
   this._seqid = this.new_seqid();
@@ -1117,6 +1133,47 @@ BlockChainServiceProcessor.prototype.process = function(input, output) {
   }
 }
 ;
+BlockChainServiceProcessor.prototype.process_GetSequence = function(seqid, input, output) {
+  var args = new BlockChainService_GetSequence_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.GetSequence.length === 1) {
+    Q.fcall(this._handler.GetSequence.bind(this._handler), args.req)
+      .then(function(result) {
+        var result_obj = new BlockChainService_GetSequence_result({success: result});
+        output.writeMessageBegin("GetSequence", Thrift.MessageType.REPLY, seqid);
+        result_obj.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      }, function (err) {
+        var result;
+        if (err instanceof model_ttypes.Exception) {
+          result = new BlockChainService_GetSequence_result(err);
+          output.writeMessageBegin("GetSequence", Thrift.MessageType.REPLY, seqid);
+        } else {
+          result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+          output.writeMessageBegin("GetSequence", Thrift.MessageType.EXCEPTION, seqid);
+        }
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+  } else {
+    this._handler.GetSequence(args.req, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
+        result_obj = new BlockChainService_GetSequence_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("GetSequence", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("GetSequence", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
 BlockChainServiceProcessor.prototype.process_BuildTx = function(seqid, input, output) {
   var args = new BlockChainService_BuildTx_args();
   args.read(input);
@@ -1131,7 +1188,7 @@ BlockChainServiceProcessor.prototype.process_BuildTx = function(seqid, input, ou
         output.flush();
       }, function (err) {
         var result;
-        if (err instanceof model_common_ttypes.Exception) {
+        if (err instanceof model_ttypes.Exception) {
           result = new BlockChainService_BuildTx_result(err);
           output.writeMessageBegin("BuildTx", Thrift.MessageType.REPLY, seqid);
         } else {
@@ -1145,7 +1202,7 @@ BlockChainServiceProcessor.prototype.process_BuildTx = function(seqid, input, ou
   } else {
     this._handler.BuildTx(args.req, function (err, result) {
       var result_obj;
-      if ((err === null || typeof err === 'undefined') || err instanceof model_common_ttypes.Exception) {
+      if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
         result_obj = new BlockChainService_BuildTx_result((err !== null || typeof err === 'undefined') ? err : {success: result});
         output.writeMessageBegin("BuildTx", Thrift.MessageType.REPLY, seqid);
       } else {
@@ -1172,7 +1229,7 @@ BlockChainServiceProcessor.prototype.process_PostTx = function(seqid, input, out
         output.flush();
       }, function (err) {
         var result;
-        if (err instanceof model_common_ttypes.Exception) {
+        if (err instanceof model_ttypes.Exception) {
           result = new BlockChainService_PostTx_result(err);
           output.writeMessageBegin("PostTx", Thrift.MessageType.REPLY, seqid);
         } else {
@@ -1186,53 +1243,12 @@ BlockChainServiceProcessor.prototype.process_PostTx = function(seqid, input, out
   } else {
     this._handler.PostTx(args.req, function (err, result) {
       var result_obj;
-      if ((err === null || typeof err === 'undefined') || err instanceof model_common_ttypes.Exception) {
+      if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
         result_obj = new BlockChainService_PostTx_result((err !== null || typeof err === 'undefined') ? err : {success: result});
         output.writeMessageBegin("PostTx", Thrift.MessageType.REPLY, seqid);
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("PostTx", Thrift.MessageType.EXCEPTION, seqid);
-      }
-      result_obj.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    });
-  }
-};
-BlockChainServiceProcessor.prototype.process_GetSequence = function(seqid, input, output) {
-  var args = new BlockChainService_GetSequence_args();
-  args.read(input);
-  input.readMessageEnd();
-  if (this._handler.GetSequence.length === 1) {
-    Q.fcall(this._handler.GetSequence.bind(this._handler), args.req)
-      .then(function(result) {
-        var result_obj = new BlockChainService_GetSequence_result({success: result});
-        output.writeMessageBegin("GetSequence", Thrift.MessageType.REPLY, seqid);
-        result_obj.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      }, function (err) {
-        var result;
-        if (err instanceof model_common_ttypes.Exception) {
-          result = new BlockChainService_GetSequence_result(err);
-          output.writeMessageBegin("GetSequence", Thrift.MessageType.REPLY, seqid);
-        } else {
-          result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-          output.writeMessageBegin("GetSequence", Thrift.MessageType.EXCEPTION, seqid);
-        }
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      });
-  } else {
-    this._handler.GetSequence(args.req, function (err, result) {
-      var result_obj;
-      if ((err === null || typeof err === 'undefined') || err instanceof model_common_ttypes.Exception) {
-        result_obj = new BlockChainService_GetSequence_result((err !== null || typeof err === 'undefined') ? err : {success: result});
-        output.writeMessageBegin("GetSequence", Thrift.MessageType.REPLY, seqid);
-      } else {
-        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("GetSequence", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();
@@ -1254,7 +1270,7 @@ BlockChainServiceProcessor.prototype.process_GetBalance = function(seqid, input,
         output.flush();
       }, function (err) {
         var result;
-        if (err instanceof model_common_ttypes.Exception) {
+        if (err instanceof model_ttypes.Exception) {
           result = new BlockChainService_GetBalance_result(err);
           output.writeMessageBegin("GetBalance", Thrift.MessageType.REPLY, seqid);
         } else {
@@ -1268,7 +1284,7 @@ BlockChainServiceProcessor.prototype.process_GetBalance = function(seqid, input,
   } else {
     this._handler.GetBalance(args.req, function (err, result) {
       var result_obj;
-      if ((err === null || typeof err === 'undefined') || err instanceof model_common_ttypes.Exception) {
+      if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
         result_obj = new BlockChainService_GetBalance_result((err !== null || typeof err === 'undefined') ? err : {success: result});
         output.writeMessageBegin("GetBalance", Thrift.MessageType.REPLY, seqid);
       } else {
@@ -1295,7 +1311,7 @@ BlockChainServiceProcessor.prototype.process_GetTxList = function(seqid, input, 
         output.flush();
       }, function (err) {
         var result;
-        if (err instanceof model_common_ttypes.Exception) {
+        if (err instanceof model_ttypes.Exception) {
           result = new BlockChainService_GetTxList_result(err);
           output.writeMessageBegin("GetTxList", Thrift.MessageType.REPLY, seqid);
         } else {
@@ -1309,7 +1325,7 @@ BlockChainServiceProcessor.prototype.process_GetTxList = function(seqid, input, 
   } else {
     this._handler.GetTxList(args.req, function (err, result) {
       var result_obj;
-      if ((err === null || typeof err === 'undefined') || err instanceof model_common_ttypes.Exception) {
+      if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
         result_obj = new BlockChainService_GetTxList_result((err !== null || typeof err === 'undefined') ? err : {success: result});
         output.writeMessageBegin("GetTxList", Thrift.MessageType.REPLY, seqid);
       } else {
@@ -1336,7 +1352,7 @@ BlockChainServiceProcessor.prototype.process_GetTxDetail = function(seqid, input
         output.flush();
       }, function (err) {
         var result;
-        if (err instanceof model_common_ttypes.Exception) {
+        if (err instanceof model_ttypes.Exception) {
           result = new BlockChainService_GetTxDetail_result(err);
           output.writeMessageBegin("GetTxDetail", Thrift.MessageType.REPLY, seqid);
         } else {
@@ -1350,7 +1366,7 @@ BlockChainServiceProcessor.prototype.process_GetTxDetail = function(seqid, input
   } else {
     this._handler.GetTxDetail(args.req, function (err, result) {
       var result_obj;
-      if ((err === null || typeof err === 'undefined') || err instanceof model_common_ttypes.Exception) {
+      if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
         result_obj = new BlockChainService_GetTxDetail_result((err !== null || typeof err === 'undefined') ? err : {success: result});
         output.writeMessageBegin("GetTxDetail", Thrift.MessageType.REPLY, seqid);
       } else {
