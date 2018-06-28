@@ -563,6 +563,7 @@ BlockChainService_GetTxList_args.prototype.read = function(input) {
 
 BlockChainService_GetTxList_args.prototype.write = function(output) {
   output.writeStructBegin('BlockChainService_GetTxList_args');
+  console.log("BlockChainService_GetTxList_args.prototype.write", this.req)
   if (this.req !== null && this.req !== undefined) {
     output.writeFieldBegin('req', Thrift.Type.STRUCT, 1);
     this.req.write(output);
@@ -1011,7 +1012,9 @@ BlockChainServiceClient.prototype.recv_GetBalance = function(input,mtype,rseqid)
   return callback('GetBalance failed: unknown result');
 };
 BlockChainServiceClient.prototype.GetTxList = function(req, callback) {
+	
   this._seqid = this.new_seqid();
+  console.log("BlockChainServiceClient.prototype.GetTxList", req)
   if (callback === undefined) {
     var _defer = Q.defer();
     this._reqs[this.seqid()] = function(error, result) {
@@ -1025,7 +1028,6 @@ BlockChainServiceClient.prototype.GetTxList = function(req, callback) {
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
-    console.log("block chain :",req)
     this.send_GetTxList(req);
   }
 };
@@ -1037,8 +1039,7 @@ BlockChainServiceClient.prototype.send_GetTxList = function(req) {
     req: req
   };
   var args = new BlockChainService_GetTxList_args(params);
-
-  console.log("-----",args)
+  console.log("BlockChainServiceClient.prototype.send_GetTxList",args)
   args.write(output);
   output.writeMessageEnd();
   return this.output.flush();
