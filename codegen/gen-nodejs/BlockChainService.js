@@ -1025,6 +1025,7 @@ BlockChainServiceClient.prototype.GetTxList = function(req, callback) {
     return _defer.promise;
   } else {
     this._reqs[this.seqid()] = callback;
+    console.log("block chain :",req)
     this.send_GetTxList(req);
   }
 };
@@ -1036,6 +1037,8 @@ BlockChainServiceClient.prototype.send_GetTxList = function(req) {
     req: req
   };
   var args = new BlockChainService_GetTxList_args(params);
+
+  console.log("-----",args)
   args.write(output);
   output.writeMessageEnd();
   return this.output.flush();
