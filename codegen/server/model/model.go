@@ -1351,8 +1351,10 @@ func (p *SequenceRequest) String() string {
 // 
 // Attributes:
 //  - Sequence
+//  - Ext
 type SequenceResponse struct {
   Sequence int64 `thrift:"sequence,1" db:"sequence" json:"sequence"`
+  Ext []byte `thrift:"ext,2" db:"ext" json:"ext"`
 }
 
 func NewSequenceResponse() *SequenceResponse {
@@ -1362,6 +1364,10 @@ func NewSequenceResponse() *SequenceResponse {
 
 func (p *SequenceResponse) GetSequence() int64 {
   return p.Sequence
+}
+
+func (p *SequenceResponse) GetExt() []byte {
+  return p.Ext
 }
 func (p *SequenceResponse) Read(iprot thrift.TProtocol) error {
   if _, err := iprot.ReadStructBegin(); err != nil {
@@ -1379,6 +1385,16 @@ func (p *SequenceResponse) Read(iprot thrift.TProtocol) error {
     case 1:
       if fieldTypeId == thrift.I64 {
         if err := p.ReadField1(iprot); err != nil {
+          return err
+        }
+      } else {
+        if err := iprot.Skip(fieldTypeId); err != nil {
+          return err
+        }
+      }
+    case 2:
+      if fieldTypeId == thrift.STRING {
+        if err := p.ReadField2(iprot); err != nil {
           return err
         }
       } else {
@@ -1410,11 +1426,21 @@ func (p *SequenceResponse)  ReadField1(iprot thrift.TProtocol) error {
   return nil
 }
 
+func (p *SequenceResponse)  ReadField2(iprot thrift.TProtocol) error {
+  if v, err := iprot.ReadBinary(); err != nil {
+  return thrift.PrependError("error reading field 2: ", err)
+} else {
+  p.Ext = v
+}
+  return nil
+}
+
 func (p *SequenceResponse) Write(oprot thrift.TProtocol) error {
   if err := oprot.WriteStructBegin("SequenceResponse"); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
   if p != nil {
     if err := p.writeField1(oprot); err != nil { return err }
+    if err := p.writeField2(oprot); err != nil { return err }
   }
   if err := oprot.WriteFieldStop(); err != nil {
     return thrift.PrependError("write field stop error: ", err) }
@@ -1430,6 +1456,16 @@ func (p *SequenceResponse) writeField1(oprot thrift.TProtocol) (err error) {
   return thrift.PrependError(fmt.Sprintf("%T.sequence (1) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 1:sequence: ", p), err) }
+  return err
+}
+
+func (p *SequenceResponse) writeField2(oprot thrift.TProtocol) (err error) {
+  if err := oprot.WriteFieldBegin("ext", thrift.STRING, 2); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:ext: ", p), err) }
+  if err := oprot.WriteBinary(p.Ext); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.ext (2) field write error: ", p), err) }
+  if err := oprot.WriteFieldEnd(); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 2:ext: ", p), err) }
   return err
 }
 
