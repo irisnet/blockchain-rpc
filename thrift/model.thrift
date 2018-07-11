@@ -83,6 +83,7 @@ struct SequenceRequest {
  */
 struct SequenceResponse {
 	1: i64 sequence
+	2: binary ext
 }
 
 /** buildTx request

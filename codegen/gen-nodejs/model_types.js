@@ -668,9 +668,13 @@ SequenceRequest.prototype.write = function(output) {
 
 var SequenceResponse = module.exports.SequenceResponse = function(args) {
   this.sequence = null;
+  this.ext = null;
   if (args) {
     if (args.sequence !== undefined && args.sequence !== null) {
       this.sequence = args.sequence;
+    }
+    if (args.ext !== undefined && args.ext !== null) {
+      this.ext = args.ext;
     }
   }
 };
@@ -695,9 +699,13 @@ SequenceResponse.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.ext = input.readBinary();
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -712,6 +720,11 @@ SequenceResponse.prototype.write = function(output) {
   if (this.sequence !== null && this.sequence !== undefined) {
     output.writeFieldBegin('sequence', Thrift.Type.I64, 1);
     output.writeI64(this.sequence);
+    output.writeFieldEnd();
+  }
+  if (this.ext !== null && this.ext !== undefined) {
+    output.writeFieldBegin('ext', Thrift.Type.STRING, 2);
+    output.writeBinary(this.ext);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
