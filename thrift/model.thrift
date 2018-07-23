@@ -149,7 +149,8 @@ struct TxListRequest {
 	6: string startTime,
 	7: string endTime,
 	8: string sort,
-	9: string q
+	9: string q,
+	10: binary ext
 }
 
 /** txDetail request
