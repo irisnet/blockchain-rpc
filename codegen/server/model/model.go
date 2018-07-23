@@ -2124,6 +2124,7 @@ func (p *BalanceResponse) String() string {
 //  - EndTime
 //  - Sort
 //  - Q
+//  - Ext
 type TxListRequest struct {
   Address string `thrift:"address,1" db:"address" json:"address"`
   Page int64 `thrift:"page,2,required" db:"page" json:"page"`
@@ -2134,6 +2135,7 @@ type TxListRequest struct {
   EndTime string `thrift:"endTime,7" db:"endTime" json:"endTime"`
   Sort string `thrift:"sort,8" db:"sort" json:"sort"`
   Q string `thrift:"q,9" db:"q" json:"q"`
+  Ext []byte `thrift:"ext,10" db:"ext" json:"ext"`
 }
 
 func NewTxListRequest() *TxListRequest {
@@ -2175,6 +2177,10 @@ func (p *TxListRequest) GetSort() string {
 
 func (p *TxListRequest) GetQ() string {
   return p.Q
+}
+
+func (p *TxListRequest) GetExt() []byte {
+  return p.Ext
 }
 func (p *TxListRequest) Read(iprot thrift.TProtocol) error {
   if _, err := iprot.ReadStructBegin(); err != nil {
@@ -2276,6 +2282,16 @@ func (p *TxListRequest) Read(iprot thrift.TProtocol) error {
     case 9:
       if fieldTypeId == thrift.STRING {
         if err := p.ReadField9(iprot); err != nil {
+          return err
+        }
+      } else {
+        if err := iprot.Skip(fieldTypeId); err != nil {
+          return err
+        }
+      }
+    case 10:
+      if fieldTypeId == thrift.STRING {
+        if err := p.ReadField10(iprot); err != nil {
           return err
         }
       } else {
@@ -2385,6 +2401,15 @@ func (p *TxListRequest)  ReadField9(iprot thrift.TProtocol) error {
   return nil
 }
 
+func (p *TxListRequest)  ReadField10(iprot thrift.TProtocol) error {
+  if v, err := iprot.ReadBinary(); err != nil {
+  return thrift.PrependError("error reading field 10: ", err)
+} else {
+  p.Ext = v
+}
+  return nil
+}
+
 func (p *TxListRequest) Write(oprot thrift.TProtocol) error {
   if err := oprot.WriteStructBegin("TxListRequest"); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
@@ -2398,6 +2423,7 @@ func (p *TxListRequest) Write(oprot thrift.TProtocol) error {
     if err := p.writeField7(oprot); err != nil { return err }
     if err := p.writeField8(oprot); err != nil { return err }
     if err := p.writeField9(oprot); err != nil { return err }
+    if err := p.writeField10(oprot); err != nil { return err }
   }
   if err := oprot.WriteFieldStop(); err != nil {
     return thrift.PrependError("write field stop error: ", err) }
@@ -2493,6 +2519,16 @@ func (p *TxListRequest) writeField9(oprot thrift.TProtocol) (err error) {
   return thrift.PrependError(fmt.Sprintf("%T.q (9) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 9:q: ", p), err) }
+  return err
+}
+
+func (p *TxListRequest) writeField10(oprot thrift.TProtocol) (err error) {
+  if err := oprot.WriteFieldBegin("ext", thrift.STRING, 10); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 10:ext: ", p), err) }
+  if err := oprot.WriteBinary(p.Ext); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.ext (10) field write error: ", p), err) }
+  if err := oprot.WriteFieldEnd(); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 10:ext: ", p), err) }
   return err
 }
 
