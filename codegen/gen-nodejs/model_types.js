@@ -1097,6 +1097,7 @@ var TxListRequest = module.exports.TxListRequest = function(args) {
   this.endTime = null;
   this.sort = null;
   this.q = null;
+  this.ext = null;
   if (args) {
     if (args.address !== undefined && args.address !== null) {
       this.address = args.address;
@@ -1128,6 +1129,9 @@ var TxListRequest = module.exports.TxListRequest = function(args) {
     }
     if (args.q !== undefined && args.q !== null) {
       this.q = args.q;
+    }
+    if (args.ext !== undefined && args.ext !== null) {
+      this.ext = args.ext;
     }
   }
 };
@@ -1208,6 +1212,13 @@ TxListRequest.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 10:
+      if (ftype == Thrift.Type.STRING) {
+        this.ext = input.readBinary();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -1262,6 +1273,11 @@ TxListRequest.prototype.write = function(output) {
   if (this.q !== null && this.q !== undefined) {
     output.writeFieldBegin('q', Thrift.Type.STRING, 9);
     output.writeString(this.q);
+    output.writeFieldEnd();
+  }
+  if (this.ext !== null && this.ext !== undefined) {
+    output.writeFieldBegin('ext', Thrift.Type.STRING, 10);
+    output.writeBinary(this.ext);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
