@@ -387,7 +387,7 @@ Tx = function(args) {
   this.receiver = null;
   this.amount = null;
   this.fee = null;
-    this.gas = null;
+    this.gasLimit = null;
   this.memo = null;
   this.type = null;
   this.txHash = null;
@@ -412,8 +412,8 @@ Tx = function(args) {
     if (args.fee !== undefined && args.fee !== null) {
       this.fee = new Fee(args.fee);
     }
-      if (args.gas !== undefined && args.gas !== null) {
-          this.gas = args.gas;
+      if (args.gasLimit !== undefined && args.gasLimit !== null) {
+          this.gasLimit = args.gasLimit;
       }
     if (args.memo !== undefined && args.memo !== null) {
       this.memo = new Memo(args.memo);
@@ -509,7 +509,7 @@ Tx.prototype.read = function(input) {
           break;
         case 13:
             if (ftype == Thrift.Type.DOUBLE) {
-                this.gas = input.readDouble().value;
+                this.gasLimit = input.readDouble().value;
             } else {
                 input.skip(ftype);
             }
@@ -616,9 +616,9 @@ Tx.prototype.write = function(output) {
     this.fee.write(output);
     output.writeFieldEnd();
   }
-    if (this.gas !== null && this.gas !== undefined) {
-        output.writeFieldBegin('gas', Thrift.Type.DOUBLE, 13);
-        output.writeDouble(this.gas);
+    if (this.gasLimit !== null && this.gasLimit !== undefined) {
+        output.writeFieldBegin('gasLimit', Thrift.Type.DOUBLE, 13);
+        output.writeDouble(this.gasLimit);
         output.writeFieldEnd();
     }
   if (this.memo !== null && this.memo !== undefined) {

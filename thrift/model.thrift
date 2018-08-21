@@ -54,7 +54,7 @@ struct Tx {
 	3: Address receiver,
 	4: list<Coin> amount,
 	5: Fee fee,
-	13: double gas,
+	13: double gasLimit,
 	6: Memo memo,
 	7: string type,
 

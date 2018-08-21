@@ -867,7 +867,7 @@ func (p *GasPrice) String() string {
 //  - Receiver
 //  - Amount
 //  - Fee
-//  - Gas
+//  - GasLimit
 //  - Memo
 //  - Type
 //  - TxHash
@@ -889,7 +889,7 @@ type Tx struct {
 	Height   int64    `thrift:"height,10" db:"height" json:"height"`
 	Status   string   `thrift:"status,11" db:"status" json:"status"`
 	Ext      []byte   `thrift:"ext,12" db:"ext" json:"ext"`
-	Gas      float64  `thrift:"gas,13" db:"gas" json:"gas"`
+	GasLimit float64  `thrift:"gasLimit,13" db:"gasLimit" json:"gasLimit"`
 	GasUsed  float64  `thrift:"gasUsed,14" db:"gasUsed" json:"gasUsed"`
 }
 
@@ -932,8 +932,8 @@ func (p *Tx) GetFee() *Fee {
 	return p.Fee
 }
 
-func (p *Tx) GetGas() float64 {
-	return p.Gas
+func (p *Tx) GetGasLimit() float64 {
+	return p.GasLimit
 }
 
 var Tx_Memo_DEFAULT *Memo
@@ -1214,7 +1214,7 @@ func (p *Tx) ReadField13(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadDouble(); err != nil {
 		return thrift.PrependError("error reading field 13: ", err)
 	} else {
-		p.Gas = v
+		p.GasLimit = v
 	}
 	return nil
 }
@@ -1512,14 +1512,14 @@ func (p *Tx) writeField12(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *Tx) writeField13(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("gas", thrift.DOUBLE, 13); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 13:gas: ", p), err)
+	if err := oprot.WriteFieldBegin("gasLimit", thrift.DOUBLE, 13); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 13:gasLimit: ", p), err)
 	}
-	if err := oprot.WriteDouble(float64(p.Gas)); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T.gas (13) field write error: ", p), err)
+	if err := oprot.WriteDouble(float64(p.GasLimit)); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T.gasLimit (13) field write error: ", p), err)
 	}
 	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 13:gas: ", p), err)
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 13:gasLimit: ", p), err)
 	}
 	return err
 }
