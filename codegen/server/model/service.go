@@ -5,11 +5,10 @@ package model
 
 import (
 	"bytes"
-	"reflect"
 	"context"
 	"fmt"
 	"git.apache.org/thrift.git/lib/go/thrift"
-
+	"reflect"
 )
 
 // (needed to ensure safety because of naive import list construction.)
@@ -20,1994 +19,2477 @@ var _ = reflect.DeepEqual
 var _ = bytes.Equal
 
 type BlockChainService interface {
-  // Parameters:
-  //  - Req
-  GetSequence(ctx context.Context, req *SequenceRequest) (r *SequenceResponse, err error)
-  // Parameters:
-  //  - Req
-  BuildTx(ctx context.Context, req *BuildTxRequest) (r *BuildTxResponse, err error)
-  // Parameters:
-  //  - Req
-  PostTx(ctx context.Context, req *PostTxRequest) (r *PostTxResponse, err error)
-  // Parameters:
-  //  - Req
-  GetBalance(ctx context.Context, req *BalanceRequest) (r *BalanceResponse, err error)
-  // Parameters:
-  //  - Req
-  GetTxList(ctx context.Context, req *TxListRequest) (r []*Tx, err error)
-  // Parameters:
-  //  - Req
-  GetTxDetail(ctx context.Context, req *TxDetailRequest) (r *Tx, err error)
+	// Parameters:
+	//  - Req
+	GetTxGas(ctx context.Context, req *TxGasRequest) (r *TxGasResponse, err error)
+	// Parameters:
+	//  - Req
+	GetSequence(ctx context.Context, req *SequenceRequest) (r *SequenceResponse, err error)
+	// Parameters:
+	//  - Req
+	BuildTx(ctx context.Context, req *BuildTxRequest) (r *BuildTxResponse, err error)
+	// Parameters:
+	//  - Req
+	PostTx(ctx context.Context, req *PostTxRequest) (r *PostTxResponse, err error)
+	// Parameters:
+	//  - Req
+	GetBalance(ctx context.Context, req *BalanceRequest) (r *BalanceResponse, err error)
+	// Parameters:
+	//  - Req
+	GetTxList(ctx context.Context, req *TxListRequest) (r []*Tx, err error)
+	// Parameters:
+	//  - Req
+	GetTxDetail(ctx context.Context, req *TxDetailRequest) (r *Tx, err error)
 }
 
 type BlockChainServiceClient struct {
-  c thrift.TClient
+	c thrift.TClient
 }
 
 // Deprecated: Use NewBlockChainService instead
 func NewBlockChainServiceClientFactory(t thrift.TTransport, f thrift.TProtocolFactory) *BlockChainServiceClient {
-  return &BlockChainServiceClient{
-    c: thrift.NewTStandardClient(f.GetProtocol(t), f.GetProtocol(t)),
-  }
+	return &BlockChainServiceClient{
+		c: thrift.NewTStandardClient(f.GetProtocol(t), f.GetProtocol(t)),
+	}
 }
 
 // Deprecated: Use NewBlockChainService instead
 func NewBlockChainServiceClientProtocol(t thrift.TTransport, iprot thrift.TProtocol, oprot thrift.TProtocol) *BlockChainServiceClient {
-  return &BlockChainServiceClient{
-    c: thrift.NewTStandardClient(iprot, oprot),
-  }
+	return &BlockChainServiceClient{
+		c: thrift.NewTStandardClient(iprot, oprot),
+	}
 }
 
 func NewBlockChainServiceClient(c thrift.TClient) *BlockChainServiceClient {
-  return &BlockChainServiceClient{
-    c: c,
-  }
+	return &BlockChainServiceClient{
+		c: c,
+	}
+}
+
+// Parameters:
+//  - Req
+func (p *BlockChainServiceClient) GetTxGas(ctx context.Context, req *TxGasRequest) (r *TxGasResponse, err error) {
+	var _args0 BlockChainServiceGetTxGasArgs
+	_args0.Req = req
+	var _result1 BlockChainServiceGetTxGasResult
+	if err = p.c.Call(ctx, "GetTxGas", &_args0, &_result1); err != nil {
+		return
+	}
+	switch {
+	case _result1.E != nil:
+		return r, _result1.E
+	}
+
+	return _result1.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Req
 func (p *BlockChainServiceClient) GetSequence(ctx context.Context, req *SequenceRequest) (r *SequenceResponse, err error) {
-  var _args0 BlockChainServiceGetSequenceArgs
-  _args0.Req = req
-  var _result1 BlockChainServiceGetSequenceResult
-  if err = p.c.Call(ctx, "GetSequence", &_args0, &_result1); err != nil {
-    return
-  }
-  switch {
-  case _result1.E!= nil:
-    return r, _result1.E
-  }
+	var _args2 BlockChainServiceGetSequenceArgs
+	_args2.Req = req
+	var _result3 BlockChainServiceGetSequenceResult
+	if err = p.c.Call(ctx, "GetSequence", &_args2, &_result3); err != nil {
+		return
+	}
+	switch {
+	case _result3.E != nil:
+		return r, _result3.E
+	}
 
-  return _result1.GetSuccess(), nil
+	return _result3.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Req
 func (p *BlockChainServiceClient) BuildTx(ctx context.Context, req *BuildTxRequest) (r *BuildTxResponse, err error) {
-  var _args2 BlockChainServiceBuildTxArgs
-  _args2.Req = req
-  var _result3 BlockChainServiceBuildTxResult
-  if err = p.c.Call(ctx, "BuildTx", &_args2, &_result3); err != nil {
-    return
-  }
-  switch {
-  case _result3.E!= nil:
-    return r, _result3.E
-  }
+	var _args4 BlockChainServiceBuildTxArgs
+	_args4.Req = req
+	var _result5 BlockChainServiceBuildTxResult
+	if err = p.c.Call(ctx, "BuildTx", &_args4, &_result5); err != nil {
+		return
+	}
+	switch {
+	case _result5.E != nil:
+		return r, _result5.E
+	}
 
-  return _result3.GetSuccess(), nil
+	return _result5.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Req
 func (p *BlockChainServiceClient) PostTx(ctx context.Context, req *PostTxRequest) (r *PostTxResponse, err error) {
-  var _args4 BlockChainServicePostTxArgs
-  _args4.Req = req
-  var _result5 BlockChainServicePostTxResult
-  if err = p.c.Call(ctx, "PostTx", &_args4, &_result5); err != nil {
-    return
-  }
-  switch {
-  case _result5.E!= nil:
-    return r, _result5.E
-  }
+	var _args6 BlockChainServicePostTxArgs
+	_args6.Req = req
+	var _result7 BlockChainServicePostTxResult
+	if err = p.c.Call(ctx, "PostTx", &_args6, &_result7); err != nil {
+		return
+	}
+	switch {
+	case _result7.E != nil:
+		return r, _result7.E
+	}
 
-  return _result5.GetSuccess(), nil
+	return _result7.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Req
 func (p *BlockChainServiceClient) GetBalance(ctx context.Context, req *BalanceRequest) (r *BalanceResponse, err error) {
-  var _args6 BlockChainServiceGetBalanceArgs
-  _args6.Req = req
-  var _result7 BlockChainServiceGetBalanceResult
-  if err = p.c.Call(ctx, "GetBalance", &_args6, &_result7); err != nil {
-    return
-  }
-  switch {
-  case _result7.E!= nil:
-    return r, _result7.E
-  }
+	var _args8 BlockChainServiceGetBalanceArgs
+	_args8.Req = req
+	var _result9 BlockChainServiceGetBalanceResult
+	if err = p.c.Call(ctx, "GetBalance", &_args8, &_result9); err != nil {
+		return
+	}
+	switch {
+	case _result9.E != nil:
+		return r, _result9.E
+	}
 
-  return _result7.GetSuccess(), nil
+	return _result9.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Req
 func (p *BlockChainServiceClient) GetTxList(ctx context.Context, req *TxListRequest) (r []*Tx, err error) {
-  var _args8 BlockChainServiceGetTxListArgs
-  _args8.Req = req
-  var _result9 BlockChainServiceGetTxListResult
-  if err = p.c.Call(ctx, "GetTxList", &_args8, &_result9); err != nil {
-    return
-  }
-  switch {
-  case _result9.E!= nil:
-    return r, _result9.E
-  }
+	var _args10 BlockChainServiceGetTxListArgs
+	_args10.Req = req
+	var _result11 BlockChainServiceGetTxListResult
+	if err = p.c.Call(ctx, "GetTxList", &_args10, &_result11); err != nil {
+		return
+	}
+	switch {
+	case _result11.E != nil:
+		return r, _result11.E
+	}
 
-  return _result9.GetSuccess(), nil
+	return _result11.GetSuccess(), nil
 }
 
 // Parameters:
 //  - Req
 func (p *BlockChainServiceClient) GetTxDetail(ctx context.Context, req *TxDetailRequest) (r *Tx, err error) {
-  var _args10 BlockChainServiceGetTxDetailArgs
-  _args10.Req = req
-  var _result11 BlockChainServiceGetTxDetailResult
-  if err = p.c.Call(ctx, "GetTxDetail", &_args10, &_result11); err != nil {
-    return
-  }
-  switch {
-  case _result11.E!= nil:
-    return r, _result11.E
-  }
+	var _args12 BlockChainServiceGetTxDetailArgs
+	_args12.Req = req
+	var _result13 BlockChainServiceGetTxDetailResult
+	if err = p.c.Call(ctx, "GetTxDetail", &_args12, &_result13); err != nil {
+		return
+	}
+	switch {
+	case _result13.E != nil:
+		return r, _result13.E
+	}
 
-  return _result11.GetSuccess(), nil
+	return _result13.GetSuccess(), nil
 }
 
 type BlockChainServiceProcessor struct {
-  processorMap map[string]thrift.TProcessorFunction
-  handler BlockChainService
+	processorMap map[string]thrift.TProcessorFunction
+	handler      BlockChainService
 }
 
 func (p *BlockChainServiceProcessor) AddToProcessorMap(key string, processor thrift.TProcessorFunction) {
-  p.processorMap[key] = processor
+	p.processorMap[key] = processor
 }
 
 func (p *BlockChainServiceProcessor) GetProcessorFunction(key string) (processor thrift.TProcessorFunction, ok bool) {
-  processor, ok = p.processorMap[key]
-  return processor, ok
+	processor, ok = p.processorMap[key]
+	return processor, ok
 }
 
 func (p *BlockChainServiceProcessor) ProcessorMap() map[string]thrift.TProcessorFunction {
-  return p.processorMap
+	return p.processorMap
 }
 
 func NewBlockChainServiceProcessor(handler BlockChainService) *BlockChainServiceProcessor {
 
-  self12 := &BlockChainServiceProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
-  self12.processorMap["GetSequence"] = &blockChainServiceProcessorGetSequence{handler:handler}
-  self12.processorMap["BuildTx"] = &blockChainServiceProcessorBuildTx{handler:handler}
-  self12.processorMap["PostTx"] = &blockChainServiceProcessorPostTx{handler:handler}
-  self12.processorMap["GetBalance"] = &blockChainServiceProcessorGetBalance{handler:handler}
-  self12.processorMap["GetTxList"] = &blockChainServiceProcessorGetTxList{handler:handler}
-  self12.processorMap["GetTxDetail"] = &blockChainServiceProcessorGetTxDetail{handler:handler}
-return self12
+	self14 := &BlockChainServiceProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
+	self14.processorMap["GetTxGas"] = &blockChainServiceProcessorGetTxGas{handler: handler}
+	self14.processorMap["GetSequence"] = &blockChainServiceProcessorGetSequence{handler: handler}
+	self14.processorMap["BuildTx"] = &blockChainServiceProcessorBuildTx{handler: handler}
+	self14.processorMap["PostTx"] = &blockChainServiceProcessorPostTx{handler: handler}
+	self14.processorMap["GetBalance"] = &blockChainServiceProcessorGetBalance{handler: handler}
+	self14.processorMap["GetTxList"] = &blockChainServiceProcessorGetTxList{handler: handler}
+	self14.processorMap["GetTxDetail"] = &blockChainServiceProcessorGetTxDetail{handler: handler}
+	return self14
 }
 
 func (p *BlockChainServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  name, _, seqId, err := iprot.ReadMessageBegin()
-  if err != nil { return false, err }
-  if processor, ok := p.GetProcessorFunction(name); ok {
-    return processor.Process(ctx, seqId, iprot, oprot)
-  }
-  iprot.Skip(thrift.STRUCT)
-  iprot.ReadMessageEnd()
-  x13 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
-  oprot.WriteMessageBegin(name, thrift.EXCEPTION, seqId)
-  x13.Write(oprot)
-  oprot.WriteMessageEnd()
-  oprot.Flush()
-  return false, x13
+	name, _, seqId, err := iprot.ReadMessageBegin()
+	if err != nil {
+		return false, err
+	}
+	if processor, ok := p.GetProcessorFunction(name); ok {
+		return processor.Process(ctx, seqId, iprot, oprot)
+	}
+	iprot.Skip(thrift.STRUCT)
+	iprot.ReadMessageEnd()
+	x15 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function "+name)
+	oprot.WriteMessageBegin(name, thrift.EXCEPTION, seqId)
+	x15.Write(oprot)
+	oprot.WriteMessageEnd()
+	oprot.Flush()
+	return false, x15
 
+}
+
+type blockChainServiceProcessorGetTxGas struct {
+	handler BlockChainService
+}
+
+func (p *blockChainServiceProcessorGetTxGas) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := BlockChainServiceGetTxGasArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetTxGas", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	result := BlockChainServiceGetTxGasResult{}
+	var retval *TxGasResponse
+	var err2 error
+	if retval, err2 = p.handler.GetTxGas(ctx, args.Req); err2 != nil {
+		switch v := err2.(type) {
+		case *Exception:
+			result.E = v
+		default:
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetTxGas: "+err2.Error())
+			oprot.WriteMessageBegin("GetTxGas", thrift.EXCEPTION, seqId)
+			x.Write(oprot)
+			oprot.WriteMessageEnd()
+			oprot.Flush()
+			return true, err2
+		}
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetTxGas", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
 }
 
 type blockChainServiceProcessorGetSequence struct {
-  handler BlockChainService
+	handler BlockChainService
 }
 
 func (p *blockChainServiceProcessorGetSequence) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := BlockChainServiceGetSequenceArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("GetSequence", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
+	args := BlockChainServiceGetSequenceArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetSequence", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
 
-  iprot.ReadMessageEnd()
-  result := BlockChainServiceGetSequenceResult{}
-var retval *SequenceResponse
-  var err2 error
-  if retval, err2 = p.handler.GetSequence(ctx, args.Req); err2 != nil {
-  switch v := err2.(type) {
-    case *Exception:
-  result.E = v
-    default:
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetSequence: " + err2.Error())
-    oprot.WriteMessageBegin("GetSequence", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  }
-  } else {
-    result.Success = retval
-}
-  if err2 = oprot.WriteMessageBegin("GetSequence", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
+	iprot.ReadMessageEnd()
+	result := BlockChainServiceGetSequenceResult{}
+	var retval *SequenceResponse
+	var err2 error
+	if retval, err2 = p.handler.GetSequence(ctx, args.Req); err2 != nil {
+		switch v := err2.(type) {
+		case *Exception:
+			result.E = v
+		default:
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetSequence: "+err2.Error())
+			oprot.WriteMessageBegin("GetSequence", thrift.EXCEPTION, seqId)
+			x.Write(oprot)
+			oprot.WriteMessageEnd()
+			oprot.Flush()
+			return true, err2
+		}
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetSequence", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
 }
 
 type blockChainServiceProcessorBuildTx struct {
-  handler BlockChainService
+	handler BlockChainService
 }
 
 func (p *blockChainServiceProcessorBuildTx) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := BlockChainServiceBuildTxArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("BuildTx", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
+	args := BlockChainServiceBuildTxArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("BuildTx", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
 
-  iprot.ReadMessageEnd()
-  result := BlockChainServiceBuildTxResult{}
-var retval *BuildTxResponse
-  var err2 error
-  if retval, err2 = p.handler.BuildTx(ctx, args.Req); err2 != nil {
-  switch v := err2.(type) {
-    case *Exception:
-  result.E = v
-    default:
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing BuildTx: " + err2.Error())
-    oprot.WriteMessageBegin("BuildTx", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  }
-  } else {
-    result.Success = retval
-}
-  if err2 = oprot.WriteMessageBegin("BuildTx", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
+	iprot.ReadMessageEnd()
+	result := BlockChainServiceBuildTxResult{}
+	var retval *BuildTxResponse
+	var err2 error
+	if retval, err2 = p.handler.BuildTx(ctx, args.Req); err2 != nil {
+		switch v := err2.(type) {
+		case *Exception:
+			result.E = v
+		default:
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing BuildTx: "+err2.Error())
+			oprot.WriteMessageBegin("BuildTx", thrift.EXCEPTION, seqId)
+			x.Write(oprot)
+			oprot.WriteMessageEnd()
+			oprot.Flush()
+			return true, err2
+		}
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("BuildTx", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
 }
 
 type blockChainServiceProcessorPostTx struct {
-  handler BlockChainService
+	handler BlockChainService
 }
 
 func (p *blockChainServiceProcessorPostTx) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := BlockChainServicePostTxArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("PostTx", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
+	args := BlockChainServicePostTxArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("PostTx", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
 
-  iprot.ReadMessageEnd()
-  result := BlockChainServicePostTxResult{}
-var retval *PostTxResponse
-  var err2 error
-  if retval, err2 = p.handler.PostTx(ctx, args.Req); err2 != nil {
-  switch v := err2.(type) {
-    case *Exception:
-  result.E = v
-    default:
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing PostTx: " + err2.Error())
-    oprot.WriteMessageBegin("PostTx", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  }
-  } else {
-    result.Success = retval
-}
-  if err2 = oprot.WriteMessageBegin("PostTx", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
+	iprot.ReadMessageEnd()
+	result := BlockChainServicePostTxResult{}
+	var retval *PostTxResponse
+	var err2 error
+	if retval, err2 = p.handler.PostTx(ctx, args.Req); err2 != nil {
+		switch v := err2.(type) {
+		case *Exception:
+			result.E = v
+		default:
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing PostTx: "+err2.Error())
+			oprot.WriteMessageBegin("PostTx", thrift.EXCEPTION, seqId)
+			x.Write(oprot)
+			oprot.WriteMessageEnd()
+			oprot.Flush()
+			return true, err2
+		}
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("PostTx", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
 }
 
 type blockChainServiceProcessorGetBalance struct {
-  handler BlockChainService
+	handler BlockChainService
 }
 
 func (p *blockChainServiceProcessorGetBalance) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := BlockChainServiceGetBalanceArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("GetBalance", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
+	args := BlockChainServiceGetBalanceArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetBalance", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
 
-  iprot.ReadMessageEnd()
-  result := BlockChainServiceGetBalanceResult{}
-var retval *BalanceResponse
-  var err2 error
-  if retval, err2 = p.handler.GetBalance(ctx, args.Req); err2 != nil {
-  switch v := err2.(type) {
-    case *Exception:
-  result.E = v
-    default:
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetBalance: " + err2.Error())
-    oprot.WriteMessageBegin("GetBalance", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  }
-  } else {
-    result.Success = retval
-}
-  if err2 = oprot.WriteMessageBegin("GetBalance", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
+	iprot.ReadMessageEnd()
+	result := BlockChainServiceGetBalanceResult{}
+	var retval *BalanceResponse
+	var err2 error
+	if retval, err2 = p.handler.GetBalance(ctx, args.Req); err2 != nil {
+		switch v := err2.(type) {
+		case *Exception:
+			result.E = v
+		default:
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetBalance: "+err2.Error())
+			oprot.WriteMessageBegin("GetBalance", thrift.EXCEPTION, seqId)
+			x.Write(oprot)
+			oprot.WriteMessageEnd()
+			oprot.Flush()
+			return true, err2
+		}
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetBalance", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
 }
 
 type blockChainServiceProcessorGetTxList struct {
-  handler BlockChainService
+	handler BlockChainService
 }
 
 func (p *blockChainServiceProcessorGetTxList) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := BlockChainServiceGetTxListArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("GetTxList", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
+	args := BlockChainServiceGetTxListArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetTxList", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
 
-  iprot.ReadMessageEnd()
-  result := BlockChainServiceGetTxListResult{}
-var retval []*Tx
-  var err2 error
-  if retval, err2 = p.handler.GetTxList(ctx, args.Req); err2 != nil {
-  switch v := err2.(type) {
-    case *Exception:
-  result.E = v
-    default:
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetTxList: " + err2.Error())
-    oprot.WriteMessageBegin("GetTxList", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  }
-  } else {
-    result.Success = retval
-}
-  if err2 = oprot.WriteMessageBegin("GetTxList", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
+	iprot.ReadMessageEnd()
+	result := BlockChainServiceGetTxListResult{}
+	var retval []*Tx
+	var err2 error
+	if retval, err2 = p.handler.GetTxList(ctx, args.Req); err2 != nil {
+		switch v := err2.(type) {
+		case *Exception:
+			result.E = v
+		default:
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetTxList: "+err2.Error())
+			oprot.WriteMessageBegin("GetTxList", thrift.EXCEPTION, seqId)
+			x.Write(oprot)
+			oprot.WriteMessageEnd()
+			oprot.Flush()
+			return true, err2
+		}
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetTxList", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
 }
 
 type blockChainServiceProcessorGetTxDetail struct {
-  handler BlockChainService
+	handler BlockChainService
 }
 
 func (p *blockChainServiceProcessorGetTxDetail) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := BlockChainServiceGetTxDetailArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("GetTxDetail", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
+	args := BlockChainServiceGetTxDetailArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("GetTxDetail", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
 
-  iprot.ReadMessageEnd()
-  result := BlockChainServiceGetTxDetailResult{}
-var retval *Tx
-  var err2 error
-  if retval, err2 = p.handler.GetTxDetail(ctx, args.Req); err2 != nil {
-  switch v := err2.(type) {
-    case *Exception:
-  result.E = v
-    default:
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetTxDetail: " + err2.Error())
-    oprot.WriteMessageBegin("GetTxDetail", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  }
-  } else {
-    result.Success = retval
+	iprot.ReadMessageEnd()
+	result := BlockChainServiceGetTxDetailResult{}
+	var retval *Tx
+	var err2 error
+	if retval, err2 = p.handler.GetTxDetail(ctx, args.Req); err2 != nil {
+		switch v := err2.(type) {
+		case *Exception:
+			result.E = v
+		default:
+			x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing GetTxDetail: "+err2.Error())
+			oprot.WriteMessageBegin("GetTxDetail", thrift.EXCEPTION, seqId)
+			x.Write(oprot)
+			oprot.WriteMessageEnd()
+			oprot.Flush()
+			return true, err2
+		}
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("GetTxDetail", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
 }
-  if err2 = oprot.WriteMessageBegin("GetTxDetail", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
-}
-
 
 // HELPER FUNCTIONS AND STRUCTURES
 
 // Attributes:
 //  - Req
+type BlockChainServiceGetTxGasArgs struct {
+	Req *TxGasRequest `thrift:"req,1" db:"req" json:"req"`
+}
+
+func NewBlockChainServiceGetTxGasArgs() *BlockChainServiceGetTxGasArgs {
+	return &BlockChainServiceGetTxGasArgs{}
+}
+
+var BlockChainServiceGetTxGasArgs_Req_DEFAULT *TxGasRequest
+
+func (p *BlockChainServiceGetTxGasArgs) GetReq() *TxGasRequest {
+	if !p.IsSetReq() {
+		return BlockChainServiceGetTxGasArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *BlockChainServiceGetTxGasArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *BlockChainServiceGetTxGasArgs) Read(iprot thrift.TProtocol) error {
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
+}
+
+func (p *BlockChainServiceGetTxGasArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &TxGasRequest{}
+	if err := p.Req.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
+	}
+	return nil
+}
+
+func (p *BlockChainServiceGetTxGasArgs) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteStructBegin("GetTxGas_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
+}
+
+func (p *BlockChainServiceGetTxGasArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err)
+	}
+	return err
+}
+
+func (p *BlockChainServiceGetTxGasArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetTxGasArgs(%+v)", *p)
+}
+
+// Attributes:
+//  - Success
+//  - E
+type BlockChainServiceGetTxGasResult struct {
+	Success *TxGasResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
+	E       *Exception     `thrift:"e,1" db:"e" json:"e,omitempty"`
+}
+
+func NewBlockChainServiceGetTxGasResult() *BlockChainServiceGetTxGasResult {
+	return &BlockChainServiceGetTxGasResult{}
+}
+
+var BlockChainServiceGetTxGasResult_Success_DEFAULT *TxGasResponse
+
+func (p *BlockChainServiceGetTxGasResult) GetSuccess() *TxGasResponse {
+	if !p.IsSetSuccess() {
+		return BlockChainServiceGetTxGasResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+var BlockChainServiceGetTxGasResult_E_DEFAULT *Exception
+
+func (p *BlockChainServiceGetTxGasResult) GetE() *Exception {
+	if !p.IsSetE() {
+		return BlockChainServiceGetTxGasResult_E_DEFAULT
+	}
+	return p.E
+}
+func (p *BlockChainServiceGetTxGasResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *BlockChainServiceGetTxGasResult) IsSetE() bool {
+	return p.E != nil
+}
+
+func (p *BlockChainServiceGetTxGasResult) Read(iprot thrift.TProtocol) error {
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField0(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
+}
+
+func (p *BlockChainServiceGetTxGasResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = &TxGasResponse{}
+	if err := p.Success.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
+	}
+	return nil
+}
+
+func (p *BlockChainServiceGetTxGasResult) ReadField1(iprot thrift.TProtocol) error {
+	p.E = &Exception{}
+	if err := p.E.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
+	}
+	return nil
+}
+
+func (p *BlockChainServiceGetTxGasResult) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteStructBegin("GetTxGas_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField0(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
+}
+
+func (p *BlockChainServiceGetTxGasResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
+}
+
+func (p *BlockChainServiceGetTxGasResult) writeField1(oprot thrift.TProtocol) (err error) {
+	if p.IsSetE() {
+		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
+		}
+		if err := p.E.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err)
+		}
+	}
+	return err
+}
+
+func (p *BlockChainServiceGetTxGasResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetTxGasResult(%+v)", *p)
+}
+
+// Attributes:
+//  - Req
 type BlockChainServiceGetSequenceArgs struct {
-  Req *SequenceRequest `thrift:"req,1" db:"req" json:"req"`
+	Req *SequenceRequest `thrift:"req,1" db:"req" json:"req"`
 }
 
 func NewBlockChainServiceGetSequenceArgs() *BlockChainServiceGetSequenceArgs {
-  return &BlockChainServiceGetSequenceArgs{}
+	return &BlockChainServiceGetSequenceArgs{}
 }
 
 var BlockChainServiceGetSequenceArgs_Req_DEFAULT *SequenceRequest
+
 func (p *BlockChainServiceGetSequenceArgs) GetReq() *SequenceRequest {
-  if !p.IsSetReq() {
-    return BlockChainServiceGetSequenceArgs_Req_DEFAULT
-  }
-return p.Req
+	if !p.IsSetReq() {
+		return BlockChainServiceGetSequenceArgs_Req_DEFAULT
+	}
+	return p.Req
 }
 func (p *BlockChainServiceGetSequenceArgs) IsSetReq() bool {
-  return p.Req != nil
+	return p.Req != nil
 }
 
 func (p *BlockChainServiceGetSequenceArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetSequenceArgs)  ReadField1(iprot thrift.TProtocol) error {
-  p.Req = &SequenceRequest{}
-  if err := p.Req.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
-  }
-  return nil
+func (p *BlockChainServiceGetSequenceArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &SequenceRequest{}
+	if err := p.Req.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetSequenceArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetSequence_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetSequence_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetSequenceArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err) }
-  if err := p.Req.Write(oprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
-  }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err) }
-  return err
+	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err)
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetSequenceArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetSequenceArgs(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetSequenceArgs(%+v)", *p)
 }
 
 // Attributes:
 //  - Success
 //  - E
 type BlockChainServiceGetSequenceResult struct {
-  Success *SequenceResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
-  E *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
+	Success *SequenceResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
+	E       *Exception        `thrift:"e,1" db:"e" json:"e,omitempty"`
 }
 
 func NewBlockChainServiceGetSequenceResult() *BlockChainServiceGetSequenceResult {
-  return &BlockChainServiceGetSequenceResult{}
+	return &BlockChainServiceGetSequenceResult{}
 }
 
 var BlockChainServiceGetSequenceResult_Success_DEFAULT *SequenceResponse
+
 func (p *BlockChainServiceGetSequenceResult) GetSuccess() *SequenceResponse {
-  if !p.IsSetSuccess() {
-    return BlockChainServiceGetSequenceResult_Success_DEFAULT
-  }
-return p.Success
+	if !p.IsSetSuccess() {
+		return BlockChainServiceGetSequenceResult_Success_DEFAULT
+	}
+	return p.Success
 }
+
 var BlockChainServiceGetSequenceResult_E_DEFAULT *Exception
+
 func (p *BlockChainServiceGetSequenceResult) GetE() *Exception {
-  if !p.IsSetE() {
-    return BlockChainServiceGetSequenceResult_E_DEFAULT
-  }
-return p.E
+	if !p.IsSetE() {
+		return BlockChainServiceGetSequenceResult_E_DEFAULT
+	}
+	return p.E
 }
 func (p *BlockChainServiceGetSequenceResult) IsSetSuccess() bool {
-  return p.Success != nil
+	return p.Success != nil
 }
 
 func (p *BlockChainServiceGetSequenceResult) IsSetE() bool {
-  return p.E != nil
+	return p.E != nil
 }
 
 func (p *BlockChainServiceGetSequenceResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField0(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetSequenceResult)  ReadField0(iprot thrift.TProtocol) error {
-  p.Success = &SequenceResponse{}
-  if err := p.Success.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-  }
-  return nil
+func (p *BlockChainServiceGetSequenceResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = &SequenceResponse{}
+	if err := p.Success.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetSequenceResult)  ReadField1(iprot thrift.TProtocol) error {
-  p.E = &Exception{}
-  if err := p.E.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
-  }
-  return nil
+func (p *BlockChainServiceGetSequenceResult) ReadField1(iprot thrift.TProtocol) error {
+	p.E = &Exception{}
+	if err := p.E.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetSequenceResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetSequence_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetSequence_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField0(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetSequenceResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := p.Success.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetSequenceResult) writeField1(oprot thrift.TProtocol) (err error) {
-  if p.IsSetE() {
-    if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err) }
-    if err := p.E.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err) }
-  }
-  return err
+	if p.IsSetE() {
+		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
+		}
+		if err := p.E.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetSequenceResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetSequenceResult(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetSequenceResult(%+v)", *p)
 }
 
 // Attributes:
 //  - Req
 type BlockChainServiceBuildTxArgs struct {
-  Req *BuildTxRequest `thrift:"req,1" db:"req" json:"req"`
+	Req *BuildTxRequest `thrift:"req,1" db:"req" json:"req"`
 }
 
 func NewBlockChainServiceBuildTxArgs() *BlockChainServiceBuildTxArgs {
-  return &BlockChainServiceBuildTxArgs{}
+	return &BlockChainServiceBuildTxArgs{}
 }
 
 var BlockChainServiceBuildTxArgs_Req_DEFAULT *BuildTxRequest
+
 func (p *BlockChainServiceBuildTxArgs) GetReq() *BuildTxRequest {
-  if !p.IsSetReq() {
-    return BlockChainServiceBuildTxArgs_Req_DEFAULT
-  }
-return p.Req
+	if !p.IsSetReq() {
+		return BlockChainServiceBuildTxArgs_Req_DEFAULT
+	}
+	return p.Req
 }
 func (p *BlockChainServiceBuildTxArgs) IsSetReq() bool {
-  return p.Req != nil
+	return p.Req != nil
 }
 
 func (p *BlockChainServiceBuildTxArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceBuildTxArgs)  ReadField1(iprot thrift.TProtocol) error {
-  p.Req = &BuildTxRequest{}
-  if err := p.Req.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
-  }
-  return nil
+func (p *BlockChainServiceBuildTxArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &BuildTxRequest{}
+	if err := p.Req.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceBuildTxArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("BuildTx_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("BuildTx_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceBuildTxArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err) }
-  if err := p.Req.Write(oprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
-  }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err) }
-  return err
+	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err)
+	}
+	return err
 }
 
 func (p *BlockChainServiceBuildTxArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceBuildTxArgs(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceBuildTxArgs(%+v)", *p)
 }
 
 // Attributes:
 //  - Success
 //  - E
 type BlockChainServiceBuildTxResult struct {
-  Success *BuildTxResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
-  E *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
+	Success *BuildTxResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
+	E       *Exception       `thrift:"e,1" db:"e" json:"e,omitempty"`
 }
 
 func NewBlockChainServiceBuildTxResult() *BlockChainServiceBuildTxResult {
-  return &BlockChainServiceBuildTxResult{}
+	return &BlockChainServiceBuildTxResult{}
 }
 
 var BlockChainServiceBuildTxResult_Success_DEFAULT *BuildTxResponse
+
 func (p *BlockChainServiceBuildTxResult) GetSuccess() *BuildTxResponse {
-  if !p.IsSetSuccess() {
-    return BlockChainServiceBuildTxResult_Success_DEFAULT
-  }
-return p.Success
+	if !p.IsSetSuccess() {
+		return BlockChainServiceBuildTxResult_Success_DEFAULT
+	}
+	return p.Success
 }
+
 var BlockChainServiceBuildTxResult_E_DEFAULT *Exception
+
 func (p *BlockChainServiceBuildTxResult) GetE() *Exception {
-  if !p.IsSetE() {
-    return BlockChainServiceBuildTxResult_E_DEFAULT
-  }
-return p.E
+	if !p.IsSetE() {
+		return BlockChainServiceBuildTxResult_E_DEFAULT
+	}
+	return p.E
 }
 func (p *BlockChainServiceBuildTxResult) IsSetSuccess() bool {
-  return p.Success != nil
+	return p.Success != nil
 }
 
 func (p *BlockChainServiceBuildTxResult) IsSetE() bool {
-  return p.E != nil
+	return p.E != nil
 }
 
 func (p *BlockChainServiceBuildTxResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField0(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceBuildTxResult)  ReadField0(iprot thrift.TProtocol) error {
-  p.Success = &BuildTxResponse{}
-  if err := p.Success.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-  }
-  return nil
+func (p *BlockChainServiceBuildTxResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = &BuildTxResponse{}
+	if err := p.Success.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceBuildTxResult)  ReadField1(iprot thrift.TProtocol) error {
-  p.E = &Exception{}
-  if err := p.E.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
-  }
-  return nil
+func (p *BlockChainServiceBuildTxResult) ReadField1(iprot thrift.TProtocol) error {
+	p.E = &Exception{}
+	if err := p.E.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceBuildTxResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("BuildTx_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("BuildTx_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField0(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceBuildTxResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := p.Success.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceBuildTxResult) writeField1(oprot thrift.TProtocol) (err error) {
-  if p.IsSetE() {
-    if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err) }
-    if err := p.E.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err) }
-  }
-  return err
+	if p.IsSetE() {
+		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
+		}
+		if err := p.E.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceBuildTxResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceBuildTxResult(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceBuildTxResult(%+v)", *p)
 }
 
 // Attributes:
 //  - Req
 type BlockChainServicePostTxArgs struct {
-  Req *PostTxRequest `thrift:"req,1" db:"req" json:"req"`
+	Req *PostTxRequest `thrift:"req,1" db:"req" json:"req"`
 }
 
 func NewBlockChainServicePostTxArgs() *BlockChainServicePostTxArgs {
-  return &BlockChainServicePostTxArgs{}
+	return &BlockChainServicePostTxArgs{}
 }
 
 var BlockChainServicePostTxArgs_Req_DEFAULT *PostTxRequest
+
 func (p *BlockChainServicePostTxArgs) GetReq() *PostTxRequest {
-  if !p.IsSetReq() {
-    return BlockChainServicePostTxArgs_Req_DEFAULT
-  }
-return p.Req
+	if !p.IsSetReq() {
+		return BlockChainServicePostTxArgs_Req_DEFAULT
+	}
+	return p.Req
 }
 func (p *BlockChainServicePostTxArgs) IsSetReq() bool {
-  return p.Req != nil
+	return p.Req != nil
 }
 
 func (p *BlockChainServicePostTxArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServicePostTxArgs)  ReadField1(iprot thrift.TProtocol) error {
-  p.Req = &PostTxRequest{}
-  if err := p.Req.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
-  }
-  return nil
+func (p *BlockChainServicePostTxArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &PostTxRequest{}
+	if err := p.Req.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServicePostTxArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("PostTx_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("PostTx_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServicePostTxArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err) }
-  if err := p.Req.Write(oprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
-  }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err) }
-  return err
+	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err)
+	}
+	return err
 }
 
 func (p *BlockChainServicePostTxArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServicePostTxArgs(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServicePostTxArgs(%+v)", *p)
 }
 
 // Attributes:
 //  - Success
 //  - E
 type BlockChainServicePostTxResult struct {
-  Success *PostTxResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
-  E *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
+	Success *PostTxResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
+	E       *Exception      `thrift:"e,1" db:"e" json:"e,omitempty"`
 }
 
 func NewBlockChainServicePostTxResult() *BlockChainServicePostTxResult {
-  return &BlockChainServicePostTxResult{}
+	return &BlockChainServicePostTxResult{}
 }
 
 var BlockChainServicePostTxResult_Success_DEFAULT *PostTxResponse
+
 func (p *BlockChainServicePostTxResult) GetSuccess() *PostTxResponse {
-  if !p.IsSetSuccess() {
-    return BlockChainServicePostTxResult_Success_DEFAULT
-  }
-return p.Success
+	if !p.IsSetSuccess() {
+		return BlockChainServicePostTxResult_Success_DEFAULT
+	}
+	return p.Success
 }
+
 var BlockChainServicePostTxResult_E_DEFAULT *Exception
+
 func (p *BlockChainServicePostTxResult) GetE() *Exception {
-  if !p.IsSetE() {
-    return BlockChainServicePostTxResult_E_DEFAULT
-  }
-return p.E
+	if !p.IsSetE() {
+		return BlockChainServicePostTxResult_E_DEFAULT
+	}
+	return p.E
 }
 func (p *BlockChainServicePostTxResult) IsSetSuccess() bool {
-  return p.Success != nil
+	return p.Success != nil
 }
 
 func (p *BlockChainServicePostTxResult) IsSetE() bool {
-  return p.E != nil
+	return p.E != nil
 }
 
 func (p *BlockChainServicePostTxResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField0(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServicePostTxResult)  ReadField0(iprot thrift.TProtocol) error {
-  p.Success = &PostTxResponse{}
-  if err := p.Success.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-  }
-  return nil
+func (p *BlockChainServicePostTxResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = &PostTxResponse{}
+	if err := p.Success.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServicePostTxResult)  ReadField1(iprot thrift.TProtocol) error {
-  p.E = &Exception{}
-  if err := p.E.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
-  }
-  return nil
+func (p *BlockChainServicePostTxResult) ReadField1(iprot thrift.TProtocol) error {
+	p.E = &Exception{}
+	if err := p.E.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServicePostTxResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("PostTx_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("PostTx_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField0(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServicePostTxResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := p.Success.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServicePostTxResult) writeField1(oprot thrift.TProtocol) (err error) {
-  if p.IsSetE() {
-    if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err) }
-    if err := p.E.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err) }
-  }
-  return err
+	if p.IsSetE() {
+		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
+		}
+		if err := p.E.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServicePostTxResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServicePostTxResult(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServicePostTxResult(%+v)", *p)
 }
 
 // Attributes:
 //  - Req
 type BlockChainServiceGetBalanceArgs struct {
-  Req *BalanceRequest `thrift:"req,1" db:"req" json:"req"`
+	Req *BalanceRequest `thrift:"req,1" db:"req" json:"req"`
 }
 
 func NewBlockChainServiceGetBalanceArgs() *BlockChainServiceGetBalanceArgs {
-  return &BlockChainServiceGetBalanceArgs{}
+	return &BlockChainServiceGetBalanceArgs{}
 }
 
 var BlockChainServiceGetBalanceArgs_Req_DEFAULT *BalanceRequest
+
 func (p *BlockChainServiceGetBalanceArgs) GetReq() *BalanceRequest {
-  if !p.IsSetReq() {
-    return BlockChainServiceGetBalanceArgs_Req_DEFAULT
-  }
-return p.Req
+	if !p.IsSetReq() {
+		return BlockChainServiceGetBalanceArgs_Req_DEFAULT
+	}
+	return p.Req
 }
 func (p *BlockChainServiceGetBalanceArgs) IsSetReq() bool {
-  return p.Req != nil
+	return p.Req != nil
 }
 
 func (p *BlockChainServiceGetBalanceArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetBalanceArgs)  ReadField1(iprot thrift.TProtocol) error {
-  p.Req = &BalanceRequest{}
-  if err := p.Req.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
-  }
-  return nil
+func (p *BlockChainServiceGetBalanceArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &BalanceRequest{}
+	if err := p.Req.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetBalanceArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetBalance_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetBalance_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetBalanceArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err) }
-  if err := p.Req.Write(oprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
-  }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err) }
-  return err
+	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err)
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetBalanceArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetBalanceArgs(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetBalanceArgs(%+v)", *p)
 }
 
 // Attributes:
 //  - Success
 //  - E
 type BlockChainServiceGetBalanceResult struct {
-  Success *BalanceResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
-  E *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
+	Success *BalanceResponse `thrift:"success,0" db:"success" json:"success,omitempty"`
+	E       *Exception       `thrift:"e,1" db:"e" json:"e,omitempty"`
 }
 
 func NewBlockChainServiceGetBalanceResult() *BlockChainServiceGetBalanceResult {
-  return &BlockChainServiceGetBalanceResult{}
+	return &BlockChainServiceGetBalanceResult{}
 }
 
 var BlockChainServiceGetBalanceResult_Success_DEFAULT *BalanceResponse
+
 func (p *BlockChainServiceGetBalanceResult) GetSuccess() *BalanceResponse {
-  if !p.IsSetSuccess() {
-    return BlockChainServiceGetBalanceResult_Success_DEFAULT
-  }
-return p.Success
+	if !p.IsSetSuccess() {
+		return BlockChainServiceGetBalanceResult_Success_DEFAULT
+	}
+	return p.Success
 }
+
 var BlockChainServiceGetBalanceResult_E_DEFAULT *Exception
+
 func (p *BlockChainServiceGetBalanceResult) GetE() *Exception {
-  if !p.IsSetE() {
-    return BlockChainServiceGetBalanceResult_E_DEFAULT
-  }
-return p.E
+	if !p.IsSetE() {
+		return BlockChainServiceGetBalanceResult_E_DEFAULT
+	}
+	return p.E
 }
 func (p *BlockChainServiceGetBalanceResult) IsSetSuccess() bool {
-  return p.Success != nil
+	return p.Success != nil
 }
 
 func (p *BlockChainServiceGetBalanceResult) IsSetE() bool {
-  return p.E != nil
+	return p.E != nil
 }
 
 func (p *BlockChainServiceGetBalanceResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField0(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetBalanceResult)  ReadField0(iprot thrift.TProtocol) error {
-  p.Success = &BalanceResponse{}
-  if err := p.Success.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-  }
-  return nil
+func (p *BlockChainServiceGetBalanceResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = &BalanceResponse{}
+	if err := p.Success.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetBalanceResult)  ReadField1(iprot thrift.TProtocol) error {
-  p.E = &Exception{}
-  if err := p.E.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
-  }
-  return nil
+func (p *BlockChainServiceGetBalanceResult) ReadField1(iprot thrift.TProtocol) error {
+	p.E = &Exception{}
+	if err := p.E.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetBalanceResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetBalance_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetBalance_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField0(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetBalanceResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := p.Success.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetBalanceResult) writeField1(oprot thrift.TProtocol) (err error) {
-  if p.IsSetE() {
-    if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err) }
-    if err := p.E.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err) }
-  }
-  return err
+	if p.IsSetE() {
+		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
+		}
+		if err := p.E.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetBalanceResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetBalanceResult(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetBalanceResult(%+v)", *p)
 }
 
 // Attributes:
 //  - Req
 type BlockChainServiceGetTxListArgs struct {
-  Req *TxListRequest `thrift:"req,1" db:"req" json:"req"`
+	Req *TxListRequest `thrift:"req,1" db:"req" json:"req"`
 }
 
 func NewBlockChainServiceGetTxListArgs() *BlockChainServiceGetTxListArgs {
-  return &BlockChainServiceGetTxListArgs{}
+	return &BlockChainServiceGetTxListArgs{}
 }
 
 var BlockChainServiceGetTxListArgs_Req_DEFAULT *TxListRequest
+
 func (p *BlockChainServiceGetTxListArgs) GetReq() *TxListRequest {
-  if !p.IsSetReq() {
-    return BlockChainServiceGetTxListArgs_Req_DEFAULT
-  }
-return p.Req
+	if !p.IsSetReq() {
+		return BlockChainServiceGetTxListArgs_Req_DEFAULT
+	}
+	return p.Req
 }
 func (p *BlockChainServiceGetTxListArgs) IsSetReq() bool {
-  return p.Req != nil
+	return p.Req != nil
 }
 
 func (p *BlockChainServiceGetTxListArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetTxListArgs)  ReadField1(iprot thrift.TProtocol) error {
-  p.Req = &TxListRequest{}
-  if err := p.Req.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
-  }
-  return nil
+func (p *BlockChainServiceGetTxListArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &TxListRequest{}
+	if err := p.Req.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxListArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetTxList_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetTxList_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxListArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err) }
-  if err := p.Req.Write(oprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
-  }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err) }
-  return err
+	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err)
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetTxListArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetTxListArgs(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetTxListArgs(%+v)", *p)
 }
 
 // Attributes:
 //  - Success
 //  - E
 type BlockChainServiceGetTxListResult struct {
-  Success []*Tx `thrift:"success,0" db:"success" json:"success,omitempty"`
-  E *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
+	Success []*Tx      `thrift:"success,0" db:"success" json:"success,omitempty"`
+	E       *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
 }
 
 func NewBlockChainServiceGetTxListResult() *BlockChainServiceGetTxListResult {
-  return &BlockChainServiceGetTxListResult{}
+	return &BlockChainServiceGetTxListResult{}
 }
 
 var BlockChainServiceGetTxListResult_Success_DEFAULT []*Tx
 
 func (p *BlockChainServiceGetTxListResult) GetSuccess() []*Tx {
-  return p.Success
+	return p.Success
 }
+
 var BlockChainServiceGetTxListResult_E_DEFAULT *Exception
+
 func (p *BlockChainServiceGetTxListResult) GetE() *Exception {
-  if !p.IsSetE() {
-    return BlockChainServiceGetTxListResult_E_DEFAULT
-  }
-return p.E
+	if !p.IsSetE() {
+		return BlockChainServiceGetTxListResult_E_DEFAULT
+	}
+	return p.E
 }
 func (p *BlockChainServiceGetTxListResult) IsSetSuccess() bool {
-  return p.Success != nil
+	return p.Success != nil
 }
 
 func (p *BlockChainServiceGetTxListResult) IsSetE() bool {
-  return p.E != nil
+	return p.E != nil
 }
 
 func (p *BlockChainServiceGetTxListResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.LIST {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.LIST {
+				if err := p.ReadField0(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetTxListResult)  ReadField0(iprot thrift.TProtocol) error {
-  _, size, err := iprot.ReadListBegin()
-  if err != nil {
-    return thrift.PrependError("error reading list begin: ", err)
-  }
-  tSlice := make([]*Tx, 0, size)
-  p.Success =  tSlice
-  for i := 0; i < size; i ++ {
-    _elem14 := &Tx{}
-    if err := _elem14.Read(iprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem14), err)
-    }
-    p.Success = append(p.Success, _elem14)
-  }
-  if err := iprot.ReadListEnd(); err != nil {
-    return thrift.PrependError("error reading list end: ", err)
-  }
-  return nil
+func (p *BlockChainServiceGetTxListResult) ReadField0(iprot thrift.TProtocol) error {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
+		return thrift.PrependError("error reading list begin: ", err)
+	}
+	tSlice := make([]*Tx, 0, size)
+	p.Success = tSlice
+	for i := 0; i < size; i++ {
+		_elem16 := &Tx{}
+		if err := _elem16.Read(iprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem16), err)
+		}
+		p.Success = append(p.Success, _elem16)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return thrift.PrependError("error reading list end: ", err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetTxListResult)  ReadField1(iprot thrift.TProtocol) error {
-  p.E = &Exception{}
-  if err := p.E.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
-  }
-  return nil
+func (p *BlockChainServiceGetTxListResult) ReadField1(iprot thrift.TProtocol) error {
+	p.E = &Exception{}
+	if err := p.E.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxListResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetTxList_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetTxList_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField0(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxListResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.LIST, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Success)); err != nil {
-      return thrift.PrependError("error writing list begin: ", err)
-    }
-    for _, v := range p.Success {
-      if err := v.Write(oprot); err != nil {
-        return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", v), err)
-      }
-    }
-    if err := oprot.WriteListEnd(); err != nil {
-      return thrift.PrependError("error writing list end: ", err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.LIST, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Success)); err != nil {
+			return thrift.PrependError("error writing list begin: ", err)
+		}
+		for _, v := range p.Success {
+			if err := v.Write(oprot); err != nil {
+				return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", v), err)
+			}
+		}
+		if err := oprot.WriteListEnd(); err != nil {
+			return thrift.PrependError("error writing list end: ", err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetTxListResult) writeField1(oprot thrift.TProtocol) (err error) {
-  if p.IsSetE() {
-    if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err) }
-    if err := p.E.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err) }
-  }
-  return err
+	if p.IsSetE() {
+		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
+		}
+		if err := p.E.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetTxListResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetTxListResult(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetTxListResult(%+v)", *p)
 }
 
 // Attributes:
 //  - Req
 type BlockChainServiceGetTxDetailArgs struct {
-  Req *TxDetailRequest `thrift:"req,1" db:"req" json:"req"`
+	Req *TxDetailRequest `thrift:"req,1" db:"req" json:"req"`
 }
 
 func NewBlockChainServiceGetTxDetailArgs() *BlockChainServiceGetTxDetailArgs {
-  return &BlockChainServiceGetTxDetailArgs{}
+	return &BlockChainServiceGetTxDetailArgs{}
 }
 
 var BlockChainServiceGetTxDetailArgs_Req_DEFAULT *TxDetailRequest
+
 func (p *BlockChainServiceGetTxDetailArgs) GetReq() *TxDetailRequest {
-  if !p.IsSetReq() {
-    return BlockChainServiceGetTxDetailArgs_Req_DEFAULT
-  }
-return p.Req
+	if !p.IsSetReq() {
+		return BlockChainServiceGetTxDetailArgs_Req_DEFAULT
+	}
+	return p.Req
 }
 func (p *BlockChainServiceGetTxDetailArgs) IsSetReq() bool {
-  return p.Req != nil
+	return p.Req != nil
 }
 
 func (p *BlockChainServiceGetTxDetailArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetTxDetailArgs)  ReadField1(iprot thrift.TProtocol) error {
-  p.Req = &TxDetailRequest{}
-  if err := p.Req.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
-  }
-  return nil
+func (p *BlockChainServiceGetTxDetailArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Req = &TxDetailRequest{}
+	if err := p.Req.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Req), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxDetailArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetTxDetail_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetTxDetail_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxDetailArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err) }
-  if err := p.Req.Write(oprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
-  }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err) }
-  return err
+	if err := oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:req: ", p), err)
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Req), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:req: ", p), err)
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetTxDetailArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetTxDetailArgs(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetTxDetailArgs(%+v)", *p)
 }
 
 // Attributes:
 //  - Success
 //  - E
 type BlockChainServiceGetTxDetailResult struct {
-  Success *Tx `thrift:"success,0" db:"success" json:"success,omitempty"`
-  E *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
+	Success *Tx        `thrift:"success,0" db:"success" json:"success,omitempty"`
+	E       *Exception `thrift:"e,1" db:"e" json:"e,omitempty"`
 }
 
 func NewBlockChainServiceGetTxDetailResult() *BlockChainServiceGetTxDetailResult {
-  return &BlockChainServiceGetTxDetailResult{}
+	return &BlockChainServiceGetTxDetailResult{}
 }
 
 var BlockChainServiceGetTxDetailResult_Success_DEFAULT *Tx
+
 func (p *BlockChainServiceGetTxDetailResult) GetSuccess() *Tx {
-  if !p.IsSetSuccess() {
-    return BlockChainServiceGetTxDetailResult_Success_DEFAULT
-  }
-return p.Success
+	if !p.IsSetSuccess() {
+		return BlockChainServiceGetTxDetailResult_Success_DEFAULT
+	}
+	return p.Success
 }
+
 var BlockChainServiceGetTxDetailResult_E_DEFAULT *Exception
+
 func (p *BlockChainServiceGetTxDetailResult) GetE() *Exception {
-  if !p.IsSetE() {
-    return BlockChainServiceGetTxDetailResult_E_DEFAULT
-  }
-return p.E
+	if !p.IsSetE() {
+		return BlockChainServiceGetTxDetailResult_E_DEFAULT
+	}
+	return p.E
 }
 func (p *BlockChainServiceGetTxDetailResult) IsSetSuccess() bool {
-  return p.Success != nil
+	return p.Success != nil
 }
 
 func (p *BlockChainServiceGetTxDetailResult) IsSetE() bool {
-  return p.E != nil
+	return p.E != nil
 }
 
 func (p *BlockChainServiceGetTxDetailResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
 
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 1:
-      if fieldTypeId == thrift.STRUCT {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField0(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField1(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetTxDetailResult)  ReadField0(iprot thrift.TProtocol) error {
-  p.Success = &Tx{}
-  if err := p.Success.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-  }
-  return nil
+func (p *BlockChainServiceGetTxDetailResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = &Tx{}
+	if err := p.Success.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
+	}
+	return nil
 }
 
-func (p *BlockChainServiceGetTxDetailResult)  ReadField1(iprot thrift.TProtocol) error {
-  p.E = &Exception{}
-  if err := p.E.Read(iprot); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
-  }
-  return nil
+func (p *BlockChainServiceGetTxDetailResult) ReadField1(iprot thrift.TProtocol) error {
+	p.E = &Exception{}
+	if err := p.E.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.E), err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxDetailResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("GetTxDetail_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-    if err := p.writeField1(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
+	if err := oprot.WriteStructBegin("GetTxDetail_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if p != nil {
+		if err := p.writeField0(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField1(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
 }
 
 func (p *BlockChainServiceGetTxDetailResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := p.Success.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetTxDetailResult) writeField1(oprot thrift.TProtocol) (err error) {
-  if p.IsSetE() {
-    if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err) }
-    if err := p.E.Write(oprot); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
-    }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err) }
-  }
-  return err
+	if p.IsSetE() {
+		if err := oprot.WriteFieldBegin("e", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:e: ", p), err)
+		}
+		if err := p.E.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.E), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:e: ", p), err)
+		}
+	}
+	return err
 }
 
 func (p *BlockChainServiceGetTxDetailResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("BlockChainServiceGetTxDetailResult(%+v)", *p)
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BlockChainServiceGetTxDetailResult(%+v)", *p)
 }
-
-

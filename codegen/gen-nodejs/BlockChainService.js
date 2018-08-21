@@ -15,6 +15,128 @@ var model_ttypes = require('./model_types');
 var ttypes = require('./service_types');
 //HELPER FUNCTIONS AND STRUCTURES
 
+var BlockChainService_GetTxGas_args = function (args) {
+    this.req = null;
+    if (args) {
+        if (args.req !== undefined && args.req !== null) {
+            this.req = new model_ttypes.TxGasRequest(args.req);
+        }
+    }
+};
+BlockChainService_GetTxGas_args.prototype = {};
+BlockChainService_GetTxGas_args.prototype.read = function (input) {
+    input.readStructBegin();
+    while (true) {
+        var ret = input.readFieldBegin();
+        var fname = ret.fname;
+        var ftype = ret.ftype;
+        var fid = ret.fid;
+        if (ftype == Thrift.Type.STOP) {
+            break;
+        }
+        switch (fid) {
+            case 1:
+                if (ftype == Thrift.Type.STRUCT) {
+                    this.req = new model_ttypes.TxGasRequest();
+                    this.req.read(input);
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 0:
+                input.skip(ftype);
+                break;
+            default:
+                input.skip(ftype);
+        }
+        input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+};
+
+BlockChainService_GetTxGas_args.prototype.write = function (output) {
+    output.writeStructBegin('BlockChainService_GetTxGas_args');
+    if (this.req !== null && this.req !== undefined) {
+        output.writeFieldBegin('req', Thrift.Type.STRUCT, 1);
+        this.req.write(output);
+        output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+};
+
+var BlockChainService_GetTxGas_result = function (args) {
+    this.success = null;
+    this.e = null;
+    if (args instanceof model_ttypes.Exception) {
+        this.e = args;
+        return;
+    }
+    if (args) {
+        if (args.success !== undefined && args.success !== null) {
+            this.success = new model_ttypes.TxGasResponse(args.success);
+        }
+        if (args.e !== undefined && args.e !== null) {
+            this.e = args.e;
+        }
+    }
+};
+BlockChainService_GetTxGas_result.prototype = {};
+BlockChainService_GetTxGas_result.prototype.read = function (input) {
+    input.readStructBegin();
+    while (true) {
+        var ret = input.readFieldBegin();
+        var fname = ret.fname;
+        var ftype = ret.ftype;
+        var fid = ret.fid;
+        if (ftype == Thrift.Type.STOP) {
+            break;
+        }
+        switch (fid) {
+            case 0:
+                if (ftype == Thrift.Type.STRUCT) {
+                    this.success = new model_ttypes.TxGasResponse();
+                    this.success.read(input);
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 1:
+                if (ftype == Thrift.Type.STRUCT) {
+                    this.e = new model_ttypes.Exception();
+                    this.e.read(input);
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            default:
+                input.skip(ftype);
+        }
+        input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+};
+
+BlockChainService_GetTxGas_result.prototype.write = function (output) {
+    output.writeStructBegin('BlockChainService_GetTxGas_result');
+    if (this.success !== null && this.success !== undefined) {
+        output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+        this.success.write(output);
+        output.writeFieldEnd();
+    }
+    if (this.e !== null && this.e !== undefined) {
+        output.writeFieldBegin('e', Thrift.Type.STRUCT, 1);
+        this.e.write(output);
+        output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+};
+
 var BlockChainService_GetSequence_args = function(args) {
   this.req = null;
   if (args) {
@@ -802,6 +924,59 @@ var BlockChainServiceClient = exports.Client = function(output, pClass) {
 BlockChainServiceClient.prototype = {};
 BlockChainServiceClient.prototype.seqid = function() { return this._seqid; };
 BlockChainServiceClient.prototype.new_seqid = function() { return this._seqid += 1; };
+BlockChainServiceClient.prototype.GetTxGas = function (req, callback) {
+    this._seqid = this.new_seqid();
+    if (callback === undefined) {
+        var _defer = Q.defer();
+        this._reqs[this.seqid()] = function (error, result) {
+            if (error) {
+                _defer.reject(error);
+            } else {
+                _defer.resolve(result);
+            }
+        };
+        this.send_GetTxGas(req);
+        return _defer.promise;
+    } else {
+        this._reqs[this.seqid()] = callback;
+        this.send_GetTxGas(req);
+    }
+};
+
+BlockChainServiceClient.prototype.send_GetTxGas = function (req) {
+    var output = new this.pClass(this.output);
+    output.writeMessageBegin('GetTxGas', Thrift.MessageType.CALL, this.seqid());
+    var params = {
+        req: req
+    };
+    var args = new BlockChainService_GetTxGas_args(params);
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+};
+
+BlockChainServiceClient.prototype.recv_GetTxGas = function (input, mtype, rseqid) {
+    var callback = this._reqs[rseqid] || function () {
+    };
+    delete this._reqs[rseqid];
+    if (mtype == Thrift.MessageType.EXCEPTION) {
+        var x = new Thrift.TApplicationException();
+        x.read(input);
+        input.readMessageEnd();
+        return callback(x);
+    }
+    var result = new BlockChainService_GetTxGas_result();
+    result.read(input);
+    input.readMessageEnd();
+
+    if (null !== result.e) {
+        return callback(result.e);
+    }
+    if (null !== result.success) {
+        return callback(null, result.success);
+    }
+    return callback('GetTxGas failed: unknown result');
+};
 BlockChainServiceClient.prototype.GetSequence = function(req, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -1133,6 +1308,47 @@ BlockChainServiceProcessor.prototype.process = function(input, output) {
   }
 }
 ;
+BlockChainServiceProcessor.prototype.process_GetTxGas = function (seqid, input, output) {
+    var args = new BlockChainService_GetTxGas_args();
+    args.read(input);
+    input.readMessageEnd();
+    if (this._handler.GetTxGas.length === 1) {
+        Q.fcall(this._handler.GetTxGas.bind(this._handler), args.req)
+            .then(function (result) {
+                var result_obj = new BlockChainService_GetTxGas_result({success: result});
+                output.writeMessageBegin("GetTxGas", Thrift.MessageType.REPLY, seqid);
+                result_obj.write(output);
+                output.writeMessageEnd();
+                output.flush();
+            }, function (err) {
+                var result;
+                if (err instanceof model_ttypes.Exception) {
+                    result = new BlockChainService_GetTxGas_result(err);
+                    output.writeMessageBegin("GetTxGas", Thrift.MessageType.REPLY, seqid);
+                } else {
+                    result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+                    output.writeMessageBegin("GetTxGas", Thrift.MessageType.EXCEPTION, seqid);
+                }
+                result.write(output);
+                output.writeMessageEnd();
+                output.flush();
+            });
+    } else {
+        this._handler.GetTxGas(args.req, function (err, result) {
+            var result_obj;
+            if ((err === null || typeof err === 'undefined') || err instanceof model_ttypes.Exception) {
+                result_obj = new BlockChainService_GetTxGas_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+                output.writeMessageBegin("GetTxGas", Thrift.MessageType.REPLY, seqid);
+            } else {
+                result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+                output.writeMessageBegin("GetTxGas", Thrift.MessageType.EXCEPTION, seqid);
+            }
+            result_obj.write(output);
+            output.writeMessageEnd();
+            output.flush();
+        });
+    }
+};
 BlockChainServiceProcessor.prototype.process_GetSequence = function(seqid, input, output) {
   var args = new BlockChainService_GetSequence_args();
   args.read(input);

@@ -4,281 +4,306 @@
 package main
 
 import (
-        "context"
-        "flag"
-        "fmt"
-        "math"
-        "net"
-        "net/url"
-        "os"
-        "strconv"
-        "strings"
-        "git.apache.org/thrift.git/lib/go/thrift"
-        "model"
+	"context"
+	"flag"
+	"fmt"
+	"git.apache.org/thrift.git/lib/go/thrift"
+	"math"
+	"model"
+	"net"
+	"net/url"
+	"os"
+	"strconv"
+	"strings"
 )
 
-
 func Usage() {
-  fmt.Fprintln(os.Stderr, "Usage of ", os.Args[0], " [-h host:port] [-u url] [-f[ramed]] function [arg1 [arg2...]]:")
-  flag.PrintDefaults()
-  fmt.Fprintln(os.Stderr, "\nFunctions:")
-  fmt.Fprintln(os.Stderr, "  SequenceResponse GetSequence(SequenceRequest req)")
-  fmt.Fprintln(os.Stderr, "  BuildTxResponse BuildTx(BuildTxRequest req)")
-  fmt.Fprintln(os.Stderr, "  PostTxResponse PostTx(PostTxRequest req)")
-  fmt.Fprintln(os.Stderr, "  BalanceResponse GetBalance(BalanceRequest req)")
-  fmt.Fprintln(os.Stderr, "   GetTxList(TxListRequest req)")
-  fmt.Fprintln(os.Stderr, "  Tx GetTxDetail(TxDetailRequest req)")
-  fmt.Fprintln(os.Stderr)
-  os.Exit(0)
+	fmt.Fprintln(os.Stderr, "Usage of ", os.Args[0], " [-h host:port] [-u url] [-f[ramed]] function [arg1 [arg2...]]:")
+	flag.PrintDefaults()
+	fmt.Fprintln(os.Stderr, "\nFunctions:")
+	fmt.Fprintln(os.Stderr, "  TxGasResponse GetTxGas(TxGasRequest req)")
+	fmt.Fprintln(os.Stderr, "  SequenceResponse GetSequence(SequenceRequest req)")
+	fmt.Fprintln(os.Stderr, "  BuildTxResponse BuildTx(BuildTxRequest req)")
+	fmt.Fprintln(os.Stderr, "  PostTxResponse PostTx(PostTxRequest req)")
+	fmt.Fprintln(os.Stderr, "  BalanceResponse GetBalance(BalanceRequest req)")
+	fmt.Fprintln(os.Stderr, "   GetTxList(TxListRequest req)")
+	fmt.Fprintln(os.Stderr, "  Tx GetTxDetail(TxDetailRequest req)")
+	fmt.Fprintln(os.Stderr)
+	os.Exit(0)
 }
 
 func main() {
-  flag.Usage = Usage
-  var host string
-  var port int
-  var protocol string
-  var urlString string
-  var framed bool
-  var useHttp bool
-  var parsedUrl *url.URL
-  var trans thrift.TTransport
-  _ = strconv.Atoi
-  _ = math.Abs
-  flag.Usage = Usage
-  flag.StringVar(&host, "h", "localhost", "Specify host and port")
-  flag.IntVar(&port, "p", 9090, "Specify port")
-  flag.StringVar(&protocol, "P", "binary", "Specify the protocol (binary, compact, simplejson, json)")
-  flag.StringVar(&urlString, "u", "", "Specify the url")
-  flag.BoolVar(&framed, "framed", false, "Use framed transport")
-  flag.BoolVar(&useHttp, "http", false, "Use http")
-  flag.Parse()
-  
-  if len(urlString) > 0 {
-    var err error
-    parsedUrl, err = url.Parse(urlString)
-    if err != nil {
-      fmt.Fprintln(os.Stderr, "Error parsing URL: ", err)
-      flag.Usage()
-    }
-    host = parsedUrl.Host
-    useHttp = len(parsedUrl.Scheme) <= 0 || parsedUrl.Scheme == "http"
-  } else if useHttp {
-    _, err := url.Parse(fmt.Sprint("http://", host, ":", port))
-    if err != nil {
-      fmt.Fprintln(os.Stderr, "Error parsing URL: ", err)
-      flag.Usage()
-    }
-  }
-  
-  cmd := flag.Arg(0)
-  var err error
-  if useHttp {
-    trans, err = thrift.NewTHttpClient(parsedUrl.String())
-  } else {
-    portStr := fmt.Sprint(port)
-    if strings.Contains(host, ":") {
-           host, portStr, err = net.SplitHostPort(host)
-           if err != nil {
-                   fmt.Fprintln(os.Stderr, "error with host:", err)
-                   os.Exit(1)
-           }
-    }
-    trans, err = thrift.NewTSocket(net.JoinHostPort(host, portStr))
-    if err != nil {
-      fmt.Fprintln(os.Stderr, "error resolving address:", err)
-      os.Exit(1)
-    }
-    if framed {
-      trans = thrift.NewTFramedTransport(trans)
-    }
-  }
-  if err != nil {
-    fmt.Fprintln(os.Stderr, "Error creating transport", err)
-    os.Exit(1)
-  }
-  defer trans.Close()
-  var protocolFactory thrift.TProtocolFactory
-  switch protocol {
-  case "compact":
-    protocolFactory = thrift.NewTCompactProtocolFactory()
-    break
-  case "simplejson":
-    protocolFactory = thrift.NewTSimpleJSONProtocolFactory()
-    break
-  case "json":
-    protocolFactory = thrift.NewTJSONProtocolFactory()
-    break
-  case "binary", "":
-    protocolFactory = thrift.NewTBinaryProtocolFactoryDefault()
-    break
-  default:
-    fmt.Fprintln(os.Stderr, "Invalid protocol specified: ", protocol)
-    Usage()
-    os.Exit(1)
-  }
-  iprot := protocolFactory.GetProtocol(trans)
-  oprot := protocolFactory.GetProtocol(trans)
-  client := model.NewBlockChainServiceClient(thrift.NewTStandardClient(iprot, oprot))
-  if err := trans.Open(); err != nil {
-    fmt.Fprintln(os.Stderr, "Error opening socket to ", host, ":", port, " ", err)
-    os.Exit(1)
-  }
-  
-  switch cmd {
-  case "GetSequence":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "GetSequence requires 1 args")
-      flag.Usage()
-    }
-    arg15 := flag.Arg(1)
-    mbTrans16 := thrift.NewTMemoryBufferLen(len(arg15))
-    defer mbTrans16.Close()
-    _, err17 := mbTrans16.WriteString(arg15)
-    if err17 != nil {
-      Usage()
-      return
-    }
-    factory18 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt19 := factory18.GetProtocol(mbTrans16)
-    argvalue0 := model.NewSequenceRequest()
-    err20 := argvalue0.Read(jsProt19)
-    if err20 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.GetSequence(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "BuildTx":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "BuildTx requires 1 args")
-      flag.Usage()
-    }
-    arg21 := flag.Arg(1)
-    mbTrans22 := thrift.NewTMemoryBufferLen(len(arg21))
-    defer mbTrans22.Close()
-    _, err23 := mbTrans22.WriteString(arg21)
-    if err23 != nil {
-      Usage()
-      return
-    }
-    factory24 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt25 := factory24.GetProtocol(mbTrans22)
-    argvalue0 := model.NewBuildTxRequest()
-    err26 := argvalue0.Read(jsProt25)
-    if err26 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.BuildTx(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "PostTx":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "PostTx requires 1 args")
-      flag.Usage()
-    }
-    arg27 := flag.Arg(1)
-    mbTrans28 := thrift.NewTMemoryBufferLen(len(arg27))
-    defer mbTrans28.Close()
-    _, err29 := mbTrans28.WriteString(arg27)
-    if err29 != nil {
-      Usage()
-      return
-    }
-    factory30 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt31 := factory30.GetProtocol(mbTrans28)
-    argvalue0 := model.NewPostTxRequest()
-    err32 := argvalue0.Read(jsProt31)
-    if err32 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.PostTx(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "GetBalance":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "GetBalance requires 1 args")
-      flag.Usage()
-    }
-    arg33 := flag.Arg(1)
-    mbTrans34 := thrift.NewTMemoryBufferLen(len(arg33))
-    defer mbTrans34.Close()
-    _, err35 := mbTrans34.WriteString(arg33)
-    if err35 != nil {
-      Usage()
-      return
-    }
-    factory36 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt37 := factory36.GetProtocol(mbTrans34)
-    argvalue0 := model.NewBalanceRequest()
-    err38 := argvalue0.Read(jsProt37)
-    if err38 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.GetBalance(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "GetTxList":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "GetTxList requires 1 args")
-      flag.Usage()
-    }
-    arg39 := flag.Arg(1)
-    mbTrans40 := thrift.NewTMemoryBufferLen(len(arg39))
-    defer mbTrans40.Close()
-    _, err41 := mbTrans40.WriteString(arg39)
-    if err41 != nil {
-      Usage()
-      return
-    }
-    factory42 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt43 := factory42.GetProtocol(mbTrans40)
-    argvalue0 := model.NewTxListRequest()
-    err44 := argvalue0.Read(jsProt43)
-    if err44 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.GetTxList(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "GetTxDetail":
-    if flag.NArg() - 1 != 1 {
-      fmt.Fprintln(os.Stderr, "GetTxDetail requires 1 args")
-      flag.Usage()
-    }
-    arg45 := flag.Arg(1)
-    mbTrans46 := thrift.NewTMemoryBufferLen(len(arg45))
-    defer mbTrans46.Close()
-    _, err47 := mbTrans46.WriteString(arg45)
-    if err47 != nil {
-      Usage()
-      return
-    }
-    factory48 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt49 := factory48.GetProtocol(mbTrans46)
-    argvalue0 := model.NewTxDetailRequest()
-    err50 := argvalue0.Read(jsProt49)
-    if err50 != nil {
-      Usage()
-      return
-    }
-    value0 := argvalue0
-    fmt.Print(client.GetTxDetail(context.Background(), value0))
-    fmt.Print("\n")
-    break
-  case "":
-    Usage()
-    break
-  default:
-    fmt.Fprintln(os.Stderr, "Invalid function ", cmd)
-  }
+	flag.Usage = Usage
+	var host string
+	var port int
+	var protocol string
+	var urlString string
+	var framed bool
+	var useHttp bool
+	var parsedUrl *url.URL
+	var trans thrift.TTransport
+	_ = strconv.Atoi
+	_ = math.Abs
+	flag.Usage = Usage
+	flag.StringVar(&host, "h", "localhost", "Specify host and port")
+	flag.IntVar(&port, "p", 9090, "Specify port")
+	flag.StringVar(&protocol, "P", "binary", "Specify the protocol (binary, compact, simplejson, json)")
+	flag.StringVar(&urlString, "u", "", "Specify the url")
+	flag.BoolVar(&framed, "framed", false, "Use framed transport")
+	flag.BoolVar(&useHttp, "http", false, "Use http")
+	flag.Parse()
+
+	if len(urlString) > 0 {
+		var err error
+		parsedUrl, err = url.Parse(urlString)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error parsing URL: ", err)
+			flag.Usage()
+		}
+		host = parsedUrl.Host
+		useHttp = len(parsedUrl.Scheme) <= 0 || parsedUrl.Scheme == "http"
+	} else if useHttp {
+		_, err := url.Parse(fmt.Sprint("http://", host, ":", port))
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error parsing URL: ", err)
+			flag.Usage()
+		}
+	}
+
+	cmd := flag.Arg(0)
+	var err error
+	if useHttp {
+		trans, err = thrift.NewTHttpClient(parsedUrl.String())
+	} else {
+		portStr := fmt.Sprint(port)
+		if strings.Contains(host, ":") {
+			host, portStr, err = net.SplitHostPort(host)
+			if err != nil {
+				fmt.Fprintln(os.Stderr, "error with host:", err)
+				os.Exit(1)
+			}
+		}
+		trans, err = thrift.NewTSocket(net.JoinHostPort(host, portStr))
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "error resolving address:", err)
+			os.Exit(1)
+		}
+		if framed {
+			trans = thrift.NewTFramedTransport(trans)
+		}
+	}
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error creating transport", err)
+		os.Exit(1)
+	}
+	defer trans.Close()
+	var protocolFactory thrift.TProtocolFactory
+	switch protocol {
+	case "compact":
+		protocolFactory = thrift.NewTCompactProtocolFactory()
+		break
+	case "simplejson":
+		protocolFactory = thrift.NewTSimpleJSONProtocolFactory()
+		break
+	case "json":
+		protocolFactory = thrift.NewTJSONProtocolFactory()
+		break
+	case "binary", "":
+		protocolFactory = thrift.NewTBinaryProtocolFactoryDefault()
+		break
+	default:
+		fmt.Fprintln(os.Stderr, "Invalid protocol specified: ", protocol)
+		Usage()
+		os.Exit(1)
+	}
+	iprot := protocolFactory.GetProtocol(trans)
+	oprot := protocolFactory.GetProtocol(trans)
+	client := model.NewBlockChainServiceClient(thrift.NewTStandardClient(iprot, oprot))
+	if err := trans.Open(); err != nil {
+		fmt.Fprintln(os.Stderr, "Error opening socket to ", host, ":", port, " ", err)
+		os.Exit(1)
+	}
+
+	switch cmd {
+	case "GetTxGas":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "GetTxGas requires 1 args")
+			flag.Usage()
+		}
+		arg17 := flag.Arg(1)
+		mbTrans18 := thrift.NewTMemoryBufferLen(len(arg17))
+		defer mbTrans18.Close()
+		_, err19 := mbTrans18.WriteString(arg17)
+		if err19 != nil {
+			Usage()
+			return
+		}
+		factory20 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt21 := factory20.GetProtocol(mbTrans18)
+		argvalue0 := model.NewTxGasRequest()
+		err22 := argvalue0.Read(jsProt21)
+		if err22 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.GetTxGas(context.Background(), value0))
+		fmt.Print("\n")
+		break
+	case "GetSequence":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "GetSequence requires 1 args")
+			flag.Usage()
+		}
+		arg23 := flag.Arg(1)
+		mbTrans24 := thrift.NewTMemoryBufferLen(len(arg23))
+		defer mbTrans24.Close()
+		_, err25 := mbTrans24.WriteString(arg23)
+		if err25 != nil {
+			Usage()
+			return
+		}
+		factory26 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt27 := factory26.GetProtocol(mbTrans24)
+		argvalue0 := model.NewSequenceRequest()
+		err28 := argvalue0.Read(jsProt27)
+		if err28 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.GetSequence(context.Background(), value0))
+		fmt.Print("\n")
+		break
+	case "BuildTx":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "BuildTx requires 1 args")
+			flag.Usage()
+		}
+		arg29 := flag.Arg(1)
+		mbTrans30 := thrift.NewTMemoryBufferLen(len(arg29))
+		defer mbTrans30.Close()
+		_, err31 := mbTrans30.WriteString(arg29)
+		if err31 != nil {
+			Usage()
+			return
+		}
+		factory32 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt33 := factory32.GetProtocol(mbTrans30)
+		argvalue0 := model.NewBuildTxRequest()
+		err34 := argvalue0.Read(jsProt33)
+		if err34 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.BuildTx(context.Background(), value0))
+		fmt.Print("\n")
+		break
+	case "PostTx":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "PostTx requires 1 args")
+			flag.Usage()
+		}
+		arg35 := flag.Arg(1)
+		mbTrans36 := thrift.NewTMemoryBufferLen(len(arg35))
+		defer mbTrans36.Close()
+		_, err37 := mbTrans36.WriteString(arg35)
+		if err37 != nil {
+			Usage()
+			return
+		}
+		factory38 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt39 := factory38.GetProtocol(mbTrans36)
+		argvalue0 := model.NewPostTxRequest()
+		err40 := argvalue0.Read(jsProt39)
+		if err40 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.PostTx(context.Background(), value0))
+		fmt.Print("\n")
+		break
+	case "GetBalance":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "GetBalance requires 1 args")
+			flag.Usage()
+		}
+		arg41 := flag.Arg(1)
+		mbTrans42 := thrift.NewTMemoryBufferLen(len(arg41))
+		defer mbTrans42.Close()
+		_, err43 := mbTrans42.WriteString(arg41)
+		if err43 != nil {
+			Usage()
+			return
+		}
+		factory44 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt45 := factory44.GetProtocol(mbTrans42)
+		argvalue0 := model.NewBalanceRequest()
+		err46 := argvalue0.Read(jsProt45)
+		if err46 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.GetBalance(context.Background(), value0))
+		fmt.Print("\n")
+		break
+	case "GetTxList":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "GetTxList requires 1 args")
+			flag.Usage()
+		}
+		arg47 := flag.Arg(1)
+		mbTrans48 := thrift.NewTMemoryBufferLen(len(arg47))
+		defer mbTrans48.Close()
+		_, err49 := mbTrans48.WriteString(arg47)
+		if err49 != nil {
+			Usage()
+			return
+		}
+		factory50 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt51 := factory50.GetProtocol(mbTrans48)
+		argvalue0 := model.NewTxListRequest()
+		err52 := argvalue0.Read(jsProt51)
+		if err52 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.GetTxList(context.Background(), value0))
+		fmt.Print("\n")
+		break
+	case "GetTxDetail":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "GetTxDetail requires 1 args")
+			flag.Usage()
+		}
+		arg53 := flag.Arg(1)
+		mbTrans54 := thrift.NewTMemoryBufferLen(len(arg53))
+		defer mbTrans54.Close()
+		_, err55 := mbTrans54.WriteString(arg53)
+		if err55 != nil {
+			Usage()
+			return
+		}
+		factory56 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt57 := factory56.GetProtocol(mbTrans54)
+		argvalue0 := model.NewTxDetailRequest()
+		err58 := argvalue0.Read(jsProt57)
+		if err58 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.GetTxDetail(context.Background(), value0))
+		fmt.Print("\n")
+		break
+	case "":
+		Usage()
+		break
+	default:
+		fmt.Fprintln(os.Stderr, "Invalid function ", cmd)
+	}
 }
