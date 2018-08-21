@@ -38,12 +38,6 @@ struct Memo {
 	2: binary text
 }
 
-struct GasUsed {
-    1: double minGasUsed,
-    2: double maxGasUsed,
-    3: double avgGasUsed
-}
-
 struct GasPrice {
     1: double minGasPrice,
     2: double maxGasPrice,
@@ -98,7 +92,7 @@ struct TxGasRequest {
  */
 struct TxGasResponse {
     1: string txType,
-    2: GasUsed gas,
+    2: double gasLimit,
     3: GasPrice gasPrice
 }
 

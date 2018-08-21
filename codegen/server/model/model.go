@@ -637,187 +637,6 @@ func (p *Memo) String() string {
 }
 
 // Attributes:
-//  - MinGasUsed
-//  - MaxGasUsed
-//  - AvgGasUsed
-type GasUsed struct {
-	MinGasUsed float64 `thrift:"minGasUsed,1" db:"minGasUsed" json:"minGasUsed"`
-	MaxGasUsed float64 `thrift:"maxGasUsed,2" db:"maxGasUsed" json:"maxGasUsed"`
-	AvgGasUsed float64 `thrift:"avgGasUsed,3" db:"avgGasUsed" json:"avgGasUsed"`
-}
-
-func NewGasUsed() *GasUsed {
-	return &GasUsed{}
-}
-
-func (p *GasUsed) GetMinGasUsed() float64 {
-	return p.MinGasUsed
-}
-
-func (p *GasUsed) GetMaxGasUsed() float64 {
-	return p.MaxGasUsed
-}
-
-func (p *GasUsed) GetAvgGasUsed() float64 {
-	return p.AvgGasUsed
-}
-func (p *GasUsed) Read(iprot thrift.TProtocol) error {
-	if _, err := iprot.ReadStructBegin(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-	}
-
-	for {
-		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-		if err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-		}
-		if fieldTypeId == thrift.STOP {
-			break
-		}
-		switch fieldId {
-		case 1:
-			if fieldTypeId == thrift.DOUBLE {
-				if err := p.ReadField1(iprot); err != nil {
-					return err
-				}
-			} else {
-				if err := iprot.Skip(fieldTypeId); err != nil {
-					return err
-				}
-			}
-		case 2:
-			if fieldTypeId == thrift.DOUBLE {
-				if err := p.ReadField2(iprot); err != nil {
-					return err
-				}
-			} else {
-				if err := iprot.Skip(fieldTypeId); err != nil {
-					return err
-				}
-			}
-		case 3:
-			if fieldTypeId == thrift.DOUBLE {
-				if err := p.ReadField3(iprot); err != nil {
-					return err
-				}
-			} else {
-				if err := iprot.Skip(fieldTypeId); err != nil {
-					return err
-				}
-			}
-		default:
-			if err := iprot.Skip(fieldTypeId); err != nil {
-				return err
-			}
-		}
-		if err := iprot.ReadFieldEnd(); err != nil {
-			return err
-		}
-	}
-	if err := iprot.ReadStructEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-	}
-	return nil
-}
-
-func (p *GasUsed) ReadField1(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadDouble(); err != nil {
-		return thrift.PrependError("error reading field 1: ", err)
-	} else {
-		p.MinGasUsed = v
-	}
-	return nil
-}
-
-func (p *GasUsed) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadDouble(); err != nil {
-		return thrift.PrependError("error reading field 2: ", err)
-	} else {
-		p.MaxGasUsed = v
-	}
-	return nil
-}
-
-func (p *GasUsed) ReadField3(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadDouble(); err != nil {
-		return thrift.PrependError("error reading field 3: ", err)
-	} else {
-		p.AvgGasUsed = v
-	}
-	return nil
-}
-
-func (p *GasUsed) Write(oprot thrift.TProtocol) error {
-	if err := oprot.WriteStructBegin("GasUsed"); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
-	}
-	if p != nil {
-		if err := p.writeField1(oprot); err != nil {
-			return err
-		}
-		if err := p.writeField2(oprot); err != nil {
-			return err
-		}
-		if err := p.writeField3(oprot); err != nil {
-			return err
-		}
-	}
-	if err := oprot.WriteFieldStop(); err != nil {
-		return thrift.PrependError("write field stop error: ", err)
-	}
-	if err := oprot.WriteStructEnd(); err != nil {
-		return thrift.PrependError("write struct stop error: ", err)
-	}
-	return nil
-}
-
-func (p *GasUsed) writeField1(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("minGasUsed", thrift.DOUBLE, 1); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:minGasUsed: ", p), err)
-	}
-	if err := oprot.WriteDouble(float64(p.MinGasUsed)); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T.minGasUsed (1) field write error: ", p), err)
-	}
-	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:minGasUsed: ", p), err)
-	}
-	return err
-}
-
-func (p *GasUsed) writeField2(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("maxGasUsed", thrift.DOUBLE, 2); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:maxGasUsed: ", p), err)
-	}
-	if err := oprot.WriteDouble(float64(p.MaxGasUsed)); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T.maxGasUsed (2) field write error: ", p), err)
-	}
-	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 2:maxGasUsed: ", p), err)
-	}
-	return err
-}
-
-func (p *GasUsed) writeField3(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("avgGasUsed", thrift.DOUBLE, 3); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 3:avgGasUsed: ", p), err)
-	}
-	if err := oprot.WriteDouble(float64(p.AvgGasUsed)); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T.avgGasUsed (3) field write error: ", p), err)
-	}
-	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 3:avgGasUsed: ", p), err)
-	}
-	return err
-}
-
-func (p *GasUsed) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("GasUsed(%+v)", *p)
-}
-
-// Attributes:
 //  - MinGasPrice
 //  - MaxGasPrice
 //  - AvgGasPrice
@@ -1981,11 +1800,11 @@ func (p *TxGasRequest) String() string {
 //
 // Attributes:
 //  - TxType
-//  - Gas
+//  - GasLimit
 //  - GasPrice
 type TxGasResponse struct {
 	TxType   string    `thrift:"txType,1" db:"txType" json:"txType"`
-	Gas      *GasUsed  `thrift:"gas,2" db:"gas" json:"gas"`
+	GasLimit float64   `thrift:"gasLimit,2" db:"gasLimit" json:"gasLimit"`
 	GasPrice *GasPrice `thrift:"gasPrice,3" db:"gasPrice" json:"gasPrice"`
 }
 
@@ -1997,13 +1816,8 @@ func (p *TxGasResponse) GetTxType() string {
 	return p.TxType
 }
 
-var TxGasResponse_Gas_DEFAULT *GasUsed
-
-func (p *TxGasResponse) GetGas() *GasUsed {
-	if !p.IsSetGas() {
-		return TxGasResponse_Gas_DEFAULT
-	}
-	return p.Gas
+func (p *TxGasResponse) GetGasLimit() float64 {
+	return p.GasLimit
 }
 
 var TxGasResponse_GasPrice_DEFAULT *GasPrice
@@ -2014,10 +1828,6 @@ func (p *TxGasResponse) GetGasPrice() *GasPrice {
 	}
 	return p.GasPrice
 }
-func (p *TxGasResponse) IsSetGas() bool {
-	return p.Gas != nil
-}
-
 func (p *TxGasResponse) IsSetGasPrice() bool {
 	return p.GasPrice != nil
 }
@@ -2047,7 +1857,7 @@ func (p *TxGasResponse) Read(iprot thrift.TProtocol) error {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRUCT {
+			if fieldTypeId == thrift.DOUBLE {
 				if err := p.ReadField2(iprot); err != nil {
 					return err
 				}
@@ -2091,9 +1901,10 @@ func (p *TxGasResponse) ReadField1(iprot thrift.TProtocol) error {
 }
 
 func (p *TxGasResponse) ReadField2(iprot thrift.TProtocol) error {
-	p.Gas = &GasUsed{}
-	if err := p.Gas.Read(iprot); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Gas), err)
+	if v, err := iprot.ReadDouble(); err != nil {
+		return thrift.PrependError("error reading field 2: ", err)
+	} else {
+		p.GasLimit = v
 	}
 	return nil
 }
@@ -2144,14 +1955,14 @@ func (p *TxGasResponse) writeField1(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *TxGasResponse) writeField2(oprot thrift.TProtocol) (err error) {
-	if err := oprot.WriteFieldBegin("gas", thrift.STRUCT, 2); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:gas: ", p), err)
+	if err := oprot.WriteFieldBegin("gasLimit", thrift.DOUBLE, 2); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:gasLimit: ", p), err)
 	}
-	if err := p.Gas.Write(oprot); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Gas), err)
+	if err := oprot.WriteDouble(float64(p.GasLimit)); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T.gasLimit (2) field write error: ", p), err)
 	}
 	if err := oprot.WriteFieldEnd(); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T write field end error 2:gas: ", p), err)
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 2:gasLimit: ", p), err)
 	}
 	return err
 }
@@ -3186,7 +2997,6 @@ func (p *TxListRequest) Read(iprot thrift.TProtocol) error {
 
 	var issetPage bool = false
 	var issetPerPage bool = false
-
 	for {
 		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
 		if err != nil {
@@ -3613,7 +3423,6 @@ func (p *TxDetailRequest) Read(iprot thrift.TProtocol) error {
 	}
 
 	var issetTxHash bool = false
-
 	for {
 		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
 		if err != nil {
