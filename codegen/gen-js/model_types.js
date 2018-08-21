@@ -285,12 +285,109 @@ Memo.prototype.write = function(output) {
   return;
 };
 
+GasPrice = function (args) {
+    this.minGasPrice = null;
+    this.maxGasPrice = null;
+    this.avgGasPrice = null;
+    this.denom = null;
+    if (args) {
+        if (args.minGasPrice !== undefined && args.minGasPrice !== null) {
+            this.minGasPrice = args.minGasPrice;
+        }
+        if (args.maxGasPrice !== undefined && args.maxGasPrice !== null) {
+            this.maxGasPrice = args.maxGasPrice;
+        }
+        if (args.avgGasPrice !== undefined && args.avgGasPrice !== null) {
+            this.avgGasPrice = args.avgGasPrice;
+        }
+        if (args.denom !== undefined && args.denom !== null) {
+            this.denom = args.denom;
+        }
+    }
+};
+GasPrice.prototype = {};
+GasPrice.prototype.read = function (input) {
+    input.readStructBegin();
+    while (true) {
+        var ret = input.readFieldBegin();
+        var fname = ret.fname;
+        var ftype = ret.ftype;
+        var fid = ret.fid;
+        if (ftype == Thrift.Type.STOP) {
+            break;
+        }
+        switch (fid) {
+            case 1:
+                if (ftype == Thrift.Type.DOUBLE) {
+                    this.minGasPrice = input.readDouble().value;
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 2:
+                if (ftype == Thrift.Type.DOUBLE) {
+                    this.maxGasPrice = input.readDouble().value;
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 3:
+                if (ftype == Thrift.Type.DOUBLE) {
+                    this.avgGasPrice = input.readDouble().value;
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 4:
+                if (ftype == Thrift.Type.STRING) {
+                    this.denom = input.readString().value;
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            default:
+                input.skip(ftype);
+        }
+        input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+};
+
+GasPrice.prototype.write = function (output) {
+    output.writeStructBegin('GasPrice');
+    if (this.minGasPrice !== null && this.minGasPrice !== undefined) {
+        output.writeFieldBegin('minGasPrice', Thrift.Type.DOUBLE, 1);
+        output.writeDouble(this.minGasPrice);
+        output.writeFieldEnd();
+    }
+    if (this.maxGasPrice !== null && this.maxGasPrice !== undefined) {
+        output.writeFieldBegin('maxGasPrice', Thrift.Type.DOUBLE, 2);
+        output.writeDouble(this.maxGasPrice);
+        output.writeFieldEnd();
+    }
+    if (this.avgGasPrice !== null && this.avgGasPrice !== undefined) {
+        output.writeFieldBegin('avgGasPrice', Thrift.Type.DOUBLE, 3);
+        output.writeDouble(this.avgGasPrice);
+        output.writeFieldEnd();
+    }
+    if (this.denom !== null && this.denom !== undefined) {
+        output.writeFieldBegin('denom', Thrift.Type.STRING, 4);
+        output.writeString(this.denom);
+        output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+};
+
 Tx = function(args) {
   this.sequence = null;
   this.sender = null;
   this.receiver = null;
   this.amount = null;
   this.fee = null;
+    this.gasLimit = null;
   this.memo = null;
   this.type = null;
   this.txHash = null;
@@ -298,6 +395,7 @@ Tx = function(args) {
   this.height = null;
   this.status = null;
   this.ext = null;
+    this.gasUsed = null;
   if (args) {
     if (args.sequence !== undefined && args.sequence !== null) {
       this.sequence = args.sequence;
@@ -314,6 +412,9 @@ Tx = function(args) {
     if (args.fee !== undefined && args.fee !== null) {
       this.fee = new Fee(args.fee);
     }
+      if (args.gasLimit !== undefined && args.gasLimit !== null) {
+          this.gasLimit = args.gasLimit;
+      }
     if (args.memo !== undefined && args.memo !== null) {
       this.memo = new Memo(args.memo);
     }
@@ -335,6 +436,9 @@ Tx = function(args) {
     if (args.ext !== undefined && args.ext !== null) {
       this.ext = args.ext;
     }
+      if (args.gasUsed !== undefined && args.gasUsed !== null) {
+          this.gasUsed = args.gasUsed;
+      }
   }
 };
 Tx.prototype = {};
@@ -402,7 +506,14 @@ Tx.prototype.read = function(input) {
       } else {
         input.skip(ftype);
       }
-      break;
+          break;
+        case 13:
+            if (ftype == Thrift.Type.DOUBLE) {
+                this.gasLimit = input.readDouble().value;
+            } else {
+                input.skip(ftype);
+            }
+            break;
       case 6:
       if (ftype == Thrift.Type.STRUCT) {
         this.memo = new Memo();
@@ -452,7 +563,14 @@ Tx.prototype.read = function(input) {
       } else {
         input.skip(ftype);
       }
-      break;
+          break;
+        case 14:
+            if (ftype == Thrift.Type.DOUBLE) {
+                this.gasUsed = input.readDouble().value;
+            } else {
+                input.skip(ftype);
+            }
+            break;
       default:
         input.skip(ftype);
     }
@@ -498,6 +616,11 @@ Tx.prototype.write = function(output) {
     this.fee.write(output);
     output.writeFieldEnd();
   }
+    if (this.gasLimit !== null && this.gasLimit !== undefined) {
+        output.writeFieldBegin('gasLimit', Thrift.Type.DOUBLE, 13);
+        output.writeDouble(this.gasLimit);
+        output.writeFieldEnd();
+    }
   if (this.memo !== null && this.memo !== undefined) {
     output.writeFieldBegin('memo', Thrift.Type.STRUCT, 6);
     this.memo.write(output);
@@ -533,6 +656,11 @@ Tx.prototype.write = function(output) {
     output.writeBinary(this.ext);
     output.writeFieldEnd();
   }
+    if (this.gasUsed !== null && this.gasUsed !== undefined) {
+        output.writeFieldBegin('gasUsed', Thrift.Type.DOUBLE, 14);
+        output.writeDouble(this.gasUsed);
+        output.writeFieldEnd();
+    }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -603,6 +731,138 @@ Exception.prototype.write = function(output) {
   output.writeFieldStop();
   output.writeStructEnd();
   return;
+};
+
+TxGasRequest = function (args) {
+    this.txType = null;
+    if (args) {
+        if (args.txType !== undefined && args.txType !== null) {
+            this.txType = args.txType;
+        }
+    }
+};
+TxGasRequest.prototype = {};
+TxGasRequest.prototype.read = function (input) {
+    input.readStructBegin();
+    while (true) {
+        var ret = input.readFieldBegin();
+        var fname = ret.fname;
+        var ftype = ret.ftype;
+        var fid = ret.fid;
+        if (ftype == Thrift.Type.STOP) {
+            break;
+        }
+        switch (fid) {
+            case 1:
+                if (ftype == Thrift.Type.STRING) {
+                    this.txType = input.readString().value;
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 0:
+                input.skip(ftype);
+                break;
+            default:
+                input.skip(ftype);
+        }
+        input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+};
+
+TxGasRequest.prototype.write = function (output) {
+    output.writeStructBegin('TxGasRequest');
+    if (this.txType !== null && this.txType !== undefined) {
+        output.writeFieldBegin('txType', Thrift.Type.STRING, 1);
+        output.writeString(this.txType);
+        output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
+};
+
+TxGasResponse = function (args) {
+    this.txType = null;
+    this.gasLimit = null;
+    this.gasPrice = null;
+    if (args) {
+        if (args.txType !== undefined && args.txType !== null) {
+            this.txType = args.txType;
+        }
+        if (args.gasLimit !== undefined && args.gasLimit !== null) {
+            this.gasLimit = args.gasLimit;
+        }
+        if (args.gasPrice !== undefined && args.gasPrice !== null) {
+            this.gasPrice = new GasPrice(args.gasPrice);
+        }
+    }
+};
+TxGasResponse.prototype = {};
+TxGasResponse.prototype.read = function (input) {
+    input.readStructBegin();
+    while (true) {
+        var ret = input.readFieldBegin();
+        var fname = ret.fname;
+        var ftype = ret.ftype;
+        var fid = ret.fid;
+        if (ftype == Thrift.Type.STOP) {
+            break;
+        }
+        switch (fid) {
+            case 1:
+                if (ftype == Thrift.Type.STRING) {
+                    this.txType = input.readString().value;
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 2:
+                if (ftype == Thrift.Type.DOUBLE) {
+                    this.gasLimit = input.readDouble().value;
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            case 3:
+                if (ftype == Thrift.Type.STRUCT) {
+                    this.gasPrice = new GasPrice();
+                    this.gasPrice.read(input);
+                } else {
+                    input.skip(ftype);
+                }
+                break;
+            default:
+                input.skip(ftype);
+        }
+        input.readFieldEnd();
+    }
+    input.readStructEnd();
+    return;
+};
+
+TxGasResponse.prototype.write = function (output) {
+    output.writeStructBegin('TxGasResponse');
+    if (this.txType !== null && this.txType !== undefined) {
+        output.writeFieldBegin('txType', Thrift.Type.STRING, 1);
+        output.writeString(this.txType);
+        output.writeFieldEnd();
+    }
+    if (this.gasLimit !== null && this.gasLimit !== undefined) {
+        output.writeFieldBegin('gasLimit', Thrift.Type.DOUBLE, 2);
+        output.writeDouble(this.gasLimit);
+        output.writeFieldEnd();
+    }
+    if (this.gasPrice !== null && this.gasPrice !== undefined) {
+        output.writeFieldBegin('gasPrice', Thrift.Type.STRUCT, 3);
+        this.gasPrice.write(output);
+        output.writeFieldEnd();
+    }
+    output.writeFieldStop();
+    output.writeStructEnd();
+    return;
 };
 
 SequenceRequest = function(args) {
@@ -1089,6 +1349,7 @@ TxListRequest = function(args) {
   this.endTime = null;
   this.sort = null;
   this.q = null;
+    this.ext = null;
   if (args) {
     if (args.address !== undefined && args.address !== null) {
       this.address = args.address;
@@ -1121,6 +1382,9 @@ TxListRequest = function(args) {
     if (args.q !== undefined && args.q !== null) {
       this.q = args.q;
     }
+      if (args.ext !== undefined && args.ext !== null) {
+          this.ext = args.ext;
+      }
   }
 };
 TxListRequest.prototype = {};
@@ -1199,7 +1463,14 @@ TxListRequest.prototype.read = function(input) {
       } else {
         input.skip(ftype);
       }
-      break;
+          break;
+        case 10:
+            if (ftype == Thrift.Type.STRING) {
+                this.ext = input.readBinary().value;
+            } else {
+                input.skip(ftype);
+            }
+            break;
       default:
         input.skip(ftype);
     }
@@ -1256,6 +1527,11 @@ TxListRequest.prototype.write = function(output) {
     output.writeString(this.q);
     output.writeFieldEnd();
   }
+    if (this.ext !== null && this.ext !== undefined) {
+        output.writeFieldBegin('ext', Thrift.Type.STRING, 10);
+        output.writeBinary(this.ext);
+        output.writeFieldEnd();
+    }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
