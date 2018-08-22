@@ -867,7 +867,6 @@ func (p *GasPrice) String() string {
 //  - Receiver
 //  - Amount
 //  - Fee
-//  - GasLimit
 //  - Memo
 //  - Type
 //  - TxHash
@@ -875,22 +874,25 @@ func (p *GasPrice) String() string {
 //  - Height
 //  - Status
 //  - Ext
+//  - GasLimit
 //  - GasUsed
+//  - ActualFee
 type Tx struct {
-	Sequence int64    `thrift:"sequence,1" db:"sequence" json:"sequence"`
-	Sender   *Address `thrift:"sender,2" db:"sender" json:"sender"`
-	Receiver *Address `thrift:"receiver,3" db:"receiver" json:"receiver"`
-	Amount   []*Coin  `thrift:"amount,4" db:"amount" json:"amount"`
-	Fee      *Fee     `thrift:"fee,5" db:"fee" json:"fee"`
-	Memo     *Memo    `thrift:"memo,6" db:"memo" json:"memo"`
-	Type     string   `thrift:"type,7" db:"type" json:"type"`
-	TxHash   string   `thrift:"txHash,8" db:"txHash" json:"txHash"`
-	Time     string   `thrift:"time,9" db:"time" json:"time"`
-	Height   int64    `thrift:"height,10" db:"height" json:"height"`
-	Status   string   `thrift:"status,11" db:"status" json:"status"`
-	Ext      []byte   `thrift:"ext,12" db:"ext" json:"ext"`
-	GasLimit float64  `thrift:"gasLimit,13" db:"gasLimit" json:"gasLimit"`
-	GasUsed  float64  `thrift:"gasUsed,14" db:"gasUsed" json:"gasUsed"`
+	Sequence  int64    `thrift:"sequence,1" db:"sequence" json:"sequence"`
+	Sender    *Address `thrift:"sender,2" db:"sender" json:"sender"`
+	Receiver  *Address `thrift:"receiver,3" db:"receiver" json:"receiver"`
+	Amount    []*Coin  `thrift:"amount,4" db:"amount" json:"amount"`
+	Fee       *Fee     `thrift:"fee,5" db:"fee" json:"fee"`
+	Memo      *Memo    `thrift:"memo,6" db:"memo" json:"memo"`
+	Type      string   `thrift:"type,7" db:"type" json:"type"`
+	TxHash    string   `thrift:"txHash,8" db:"txHash" json:"txHash"`
+	Time      string   `thrift:"time,9" db:"time" json:"time"`
+	Height    int64    `thrift:"height,10" db:"height" json:"height"`
+	Status    string   `thrift:"status,11" db:"status" json:"status"`
+	Ext       []byte   `thrift:"ext,12" db:"ext" json:"ext"`
+	GasLimit  float64  `thrift:"gasLimit,13" db:"gasLimit" json:"gasLimit"`
+	GasUsed   float64  `thrift:"gasUsed,14" db:"gasUsed" json:"gasUsed"`
+	ActualFee *Fee     `thrift:"actualFee,15" db:"actualFee" json:"actualFee"`
 }
 
 func NewTx() *Tx {
@@ -932,10 +934,6 @@ func (p *Tx) GetFee() *Fee {
 	return p.Fee
 }
 
-func (p *Tx) GetGasLimit() float64 {
-	return p.GasLimit
-}
-
 var Tx_Memo_DEFAULT *Memo
 
 func (p *Tx) GetMemo() *Memo {
@@ -969,8 +967,21 @@ func (p *Tx) GetExt() []byte {
 	return p.Ext
 }
 
+func (p *Tx) GetGasLimit() float64 {
+	return p.GasLimit
+}
+
 func (p *Tx) GetGasUsed() float64 {
 	return p.GasUsed
+}
+
+var Tx_ActualFee_DEFAULT *Fee
+
+func (p *Tx) GetActualFee() *Fee {
+	if !p.IsSetActualFee() {
+		return Tx_ActualFee_DEFAULT
+	}
+	return p.ActualFee
 }
 func (p *Tx) IsSetSender() bool {
 	return p.Sender != nil
@@ -986,6 +997,10 @@ func (p *Tx) IsSetFee() bool {
 
 func (p *Tx) IsSetMemo() bool {
 	return p.Memo != nil
+}
+
+func (p *Tx) IsSetActualFee() bool {
+	return p.ActualFee != nil
 }
 
 func (p *Tx) Read(iprot thrift.TProtocol) error {
@@ -1045,16 +1060,6 @@ func (p *Tx) Read(iprot thrift.TProtocol) error {
 		case 5:
 			if fieldTypeId == thrift.STRUCT {
 				if err := p.ReadField5(iprot); err != nil {
-					return err
-				}
-			} else {
-				if err := iprot.Skip(fieldTypeId); err != nil {
-					return err
-				}
-			}
-		case 13:
-			if fieldTypeId == thrift.DOUBLE {
-				if err := p.ReadField13(iprot); err != nil {
 					return err
 				}
 			} else {
@@ -1132,9 +1137,29 @@ func (p *Tx) Read(iprot thrift.TProtocol) error {
 					return err
 				}
 			}
+		case 13:
+			if fieldTypeId == thrift.DOUBLE {
+				if err := p.ReadField13(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
 		case 14:
 			if fieldTypeId == thrift.DOUBLE {
 				if err := p.ReadField14(iprot); err != nil {
+					return err
+				}
+			} else {
+				if err := iprot.Skip(fieldTypeId); err != nil {
+					return err
+				}
+			}
+		case 15:
+			if fieldTypeId == thrift.STRUCT {
+				if err := p.ReadField15(iprot); err != nil {
 					return err
 				}
 			} else {
@@ -1210,15 +1235,6 @@ func (p *Tx) ReadField5(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *Tx) ReadField13(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadDouble(); err != nil {
-		return thrift.PrependError("error reading field 13: ", err)
-	} else {
-		p.GasLimit = v
-	}
-	return nil
-}
-
 func (p *Tx) ReadField6(iprot thrift.TProtocol) error {
 	p.Memo = &Memo{}
 	if err := p.Memo.Read(iprot); err != nil {
@@ -1281,11 +1297,28 @@ func (p *Tx) ReadField12(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *Tx) ReadField13(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadDouble(); err != nil {
+		return thrift.PrependError("error reading field 13: ", err)
+	} else {
+		p.GasLimit = v
+	}
+	return nil
+}
+
 func (p *Tx) ReadField14(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadDouble(); err != nil {
 		return thrift.PrependError("error reading field 14: ", err)
 	} else {
 		p.GasUsed = v
+	}
+	return nil
+}
+
+func (p *Tx) ReadField15(iprot thrift.TProtocol) error {
+	p.ActualFee = &Fee{}
+	if err := p.ActualFee.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.ActualFee), err)
 	}
 	return nil
 }
@@ -1335,6 +1368,9 @@ func (p *Tx) Write(oprot thrift.TProtocol) error {
 			return err
 		}
 		if err := p.writeField14(oprot); err != nil {
+			return err
+		}
+		if err := p.writeField15(oprot); err != nil {
 			return err
 		}
 	}
@@ -1533,6 +1569,19 @@ func (p *Tx) writeField14(oprot thrift.TProtocol) (err error) {
 	}
 	if err := oprot.WriteFieldEnd(); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write field end error 14:gasUsed: ", p), err)
+	}
+	return err
+}
+
+func (p *Tx) writeField15(oprot thrift.TProtocol) (err error) {
+	if err := oprot.WriteFieldBegin("actualFee", thrift.STRUCT, 15); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 15:actualFee: ", p), err)
+	}
+	if err := p.ActualFee.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.ActualFee), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 15:actualFee: ", p), err)
 	}
 	return err
 }
