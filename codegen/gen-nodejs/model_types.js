@@ -393,7 +393,6 @@ var Tx = module.exports.Tx = function(args) {
   this.receiver = null;
   this.amount = null;
   this.fee = null;
-    this.gasLimit = null;
   this.memo = null;
   this.type = null;
   this.txHash = null;
@@ -401,7 +400,9 @@ var Tx = module.exports.Tx = function(args) {
   this.height = null;
   this.status = null;
   this.ext = null;
+    this.gasLimit = null;
     this.gasUsed = null;
+    this.actualFee = null;
   if (args) {
     if (args.sequence !== undefined && args.sequence !== null) {
       this.sequence = args.sequence;
@@ -418,9 +419,6 @@ var Tx = module.exports.Tx = function(args) {
     if (args.fee !== undefined && args.fee !== null) {
       this.fee = new ttypes.Fee(args.fee);
     }
-      if (args.gasLimit !== undefined && args.gasLimit !== null) {
-          this.gasLimit = args.gasLimit;
-      }
     if (args.memo !== undefined && args.memo !== null) {
       this.memo = new ttypes.Memo(args.memo);
     }
@@ -442,8 +440,14 @@ var Tx = module.exports.Tx = function(args) {
     if (args.ext !== undefined && args.ext !== null) {
       this.ext = args.ext;
     }
+      if (args.gasLimit !== undefined && args.gasLimit !== null) {
+          this.gasLimit = args.gasLimit;
+      }
       if (args.gasUsed !== undefined && args.gasUsed !== null) {
           this.gasUsed = args.gasUsed;
+      }
+      if (args.actualFee !== undefined && args.actualFee !== null) {
+          this.actualFee = new ttypes.Fee(args.actualFee);
       }
   }
 };
@@ -513,13 +517,6 @@ Tx.prototype.read = function(input) {
         input.skip(ftype);
       }
           break;
-        case 13:
-            if (ftype == Thrift.Type.DOUBLE) {
-                this.gasLimit = input.readDouble();
-            } else {
-                input.skip(ftype);
-            }
-            break;
       case 6:
       if (ftype == Thrift.Type.STRUCT) {
         this.memo = new ttypes.Memo();
@@ -570,9 +567,24 @@ Tx.prototype.read = function(input) {
         input.skip(ftype);
       }
           break;
+        case 13:
+            if (ftype == Thrift.Type.DOUBLE) {
+                this.gasLimit = input.readDouble();
+            } else {
+                input.skip(ftype);
+            }
+            break;
         case 14:
             if (ftype == Thrift.Type.DOUBLE) {
                 this.gasUsed = input.readDouble();
+            } else {
+                input.skip(ftype);
+            }
+            break;
+        case 15:
+            if (ftype == Thrift.Type.STRUCT) {
+                this.actualFee = new ttypes.Fee();
+                this.actualFee.read(input);
             } else {
                 input.skip(ftype);
             }
@@ -622,11 +634,6 @@ Tx.prototype.write = function(output) {
     this.fee.write(output);
     output.writeFieldEnd();
   }
-    if (this.gasLimit !== null && this.gasLimit !== undefined) {
-        output.writeFieldBegin('gasLimit', Thrift.Type.DOUBLE, 13);
-        output.writeDouble(this.gasLimit);
-        output.writeFieldEnd();
-    }
   if (this.memo !== null && this.memo !== undefined) {
     output.writeFieldBegin('memo', Thrift.Type.STRUCT, 6);
     this.memo.write(output);
@@ -662,9 +669,19 @@ Tx.prototype.write = function(output) {
     output.writeBinary(this.ext);
     output.writeFieldEnd();
   }
+    if (this.gasLimit !== null && this.gasLimit !== undefined) {
+        output.writeFieldBegin('gasLimit', Thrift.Type.DOUBLE, 13);
+        output.writeDouble(this.gasLimit);
+        output.writeFieldEnd();
+    }
     if (this.gasUsed !== null && this.gasUsed !== undefined) {
         output.writeFieldBegin('gasUsed', Thrift.Type.DOUBLE, 14);
         output.writeDouble(this.gasUsed);
+        output.writeFieldEnd();
+    }
+    if (this.actualFee !== null && this.actualFee !== undefined) {
+        output.writeFieldBegin('actualFee', Thrift.Type.STRUCT, 15);
+        this.actualFee.write(output);
         output.writeFieldEnd();
     }
   output.writeFieldStop();
